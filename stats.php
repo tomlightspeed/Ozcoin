@@ -79,7 +79,6 @@ $users = $row[0];
 
 echo "<br>Current Users Mining: ".$users."<br/>";
 echo "Current Total Miners: ".$settings->getsetting('currentworkers')."<br/>";
-
 echo "</td></tr></table>";
 
 include("includes/footer.php");
