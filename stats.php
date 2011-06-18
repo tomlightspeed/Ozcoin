@@ -44,6 +44,8 @@ while ($resultrow = mysql_fetch_object($result)) {
 
 ?>
 </table>
+</div>
+<div id="stats_lifetime">
 <table class="stats_table">
 <tr><th colspan="3" scope="col">Top $numberResults Lifetime Shares</th></tr>
 <tr><th scope="col">User Name</th><th scope="col">Shares</th></tr>
