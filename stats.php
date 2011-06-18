@@ -23,7 +23,8 @@ $numberResults = 30;
 $bitcoinController = new BitcoinClient($rpcType, $rpcUsername, $rpcPassword, $rpcHost);
 
 ?>
-<table><tr><td>
+<div id="stats_wrap">
+<div id="stats_members">
 <h1>Member Stats</h1><br/>
 <table border="1" cellspacing=0 cellpadding=5>
 <?php
@@ -64,9 +65,11 @@ while ($resultrow = mysql_fetch_object($result)) {
 ?>
 </table></td></tr>
 </table>
+</div>
+<div id="stats_server">
 <?php
 
-echo "</td><td style=\"vertical-align:top;padding-left:15px;\">"; // START SERVER STATS
+echo "<td style=\"vertical-align:top;padding-left:15px;\">"; // START SERVER STATS
 echo "<h1>Server Stats</h1><br/>";
 echo "Current Block: ".$bitcoinController->query("getblocknumber")."\n<br/>";
 echo "Current Difficulty: ".round($bitcoinController->query("getdifficulty"), 2)."<br/>";
@@ -85,7 +88,7 @@ $users = $row[0];
 
 echo "<br>Current Users Mining: ".$users."<br/>";
 echo "Current Total Miners: ".$settings->getsetting('currentworkers')."<br/>";
-echo "</td></tr></table>";
+echo "</div><div class=\"clear\"></div>";
 
 include("includes/footer.php");
 
