@@ -21,33 +21,32 @@ include ("includes/header.php");
 $stats = offline1;
 
 if($stats === offline) {
-echo "Stats Offline until we can update the mysql db hits, hopefully tommorow some time";
+	echo "Stats Offline until we can update the mysql db hits, hopefully tommorow some time";
 	exit;
 }
 
 echo "<h2>Blocks Found</h2><br/>";
-
-print("<table width=600 border=1 cellspacing=1 cellpadding=5>");
-print("<tr><td align=left><B>Block</B></td><td align=left><B>Confirms</B></td><td align=left><b>Finder</b></td><td align=left><b>Time</b></td></tr>");
+echo "<table width=600 border=1 cellspacing=1 cellpadding=5>";
+echo "<tr><td align=left><B>Block</B></td><td align=left><B>Confirms</B></td><td align=left><b>Finder</b></td><td align=left><b>Time</b></td></tr>";
 
 $result = mysql_query("SELECT blockNumber, confirms, timestamp FROM networkBlocks WHERE confirms > 1 ORDER BY blockNumber DESC");
+
 while($resultrow = mysql_fetch_object($result)) {
+	echo "<tr>";
+	
+	$resdss = mysql_query("SELECT username FROM shares_history WHERE upstream_result = 'Y' AND blockNumber = $resultrow->blockNumber");
+	$resdss = mysql_fetch_object($resdss);
 
-print("<tr>");
-$resdss = mysql_query("SELECT username FROM shares_history WHERE upstream_result = 'Y' AND blockNumber = $resultrow->blockNumber");
-$resdss = mysql_fetch_object($resdss);
-$username = "$resdss->username"; 
+	$splitUsername = explode(".", $resdss->username);
+	$realUsername = $splitUsername[0];
 
-$splitUsername = explode(".", $resdss->username);
-$realUsername = $splitUsername[0];
-
-print("<td align=left>$resultrow->blockNumber</td>");
-print("<td align=left>$resultrow->confirms</td>");
-print("<td align=left>$realUsername</td>");
-print("<td align=left>".strftime("%B %d %Y %r",$resultrow->timestamp)."</td>");
+	echo "<td align=left>$resultrow->blockNumber</td>";
+	echo "<td align=left>$resultrow->confirms</td>";
+	echo "<td align=left>$realUsername</td>";
+	echo "<td align=left>".strftime("%B %d %Y %r",$resultrow->timestamp)."</td>";
 }
-print("</table>");
 
+echo "</table>";
 echo "<br><a href=stats.php style=\"color: blue\">Back to stats</a><br>";
 
-include("includes/footer.php");			
+include("includes/footer.php");
