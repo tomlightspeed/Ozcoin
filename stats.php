@@ -103,28 +103,28 @@ while ($resultrow = mysql_fetch_object($result)) {
 
 // START SERVER STATS
 echo "<tr><th colspan=\"2\" scope=\"col\">Server Stats</th></tr>";
-echo "<tr><th scope=\"col\">Current Block</th><td>".$bitcoinController->query("getblocknumber")."</td></tr>";
-echo "<tr><th scope=\"col\">Current Difficulty</th><td>".round($bitcoinController->query("getdifficulty"), 2)."</td></tr>";
+echo "<tr><th class=\"leftheader\" scope=\"col\">Current Block</th><td>".$bitcoinController->query("getblocknumber")."</td></tr>";
+echo "<tr><th class=\"leftheader\" scope=\"col\">Current Difficulty</th><td>".round($bitcoinController->query("getdifficulty"), 2)."</td></tr>";
 
 $result = mysql_query("SELECT blockNumber, confirms, timestamp FROM networkBlocks WHERE confirms > 1 ORDER BY blockNumber DESC LIMIT 1");
 if ($resultrow = mysql_fetch_object($result)) {
-	echo "<tr><th scope=\"col\">Last Block Found</th><td>".$resultrow->blockNumber."</td></tr>";
+	echo "<tr><th class=\"leftheader\" scope=\"col\">Last Block Found</th><td>".$resultrow->blockNumber."</td></tr>";
 	$confirm_no = $resultrow->confirms;
-	echo "<tr><th scope=\"col\">Confirmations</th><td>".$confirm_no;
+	echo "<tr><th class=\"leftheader\" scope=\"col\">Confirmations</th><td>".$confirm_no;
 	if( $confirm_no > 99 )
 	{
 		echo "&nbsp;<img src=\"/images/excited.gif\" />";
 	}
 	echo "</td></tr>";
-	echo "<tr><th scope=\"col\">Time</th><td>".strftime("%B %d %Y %r",$resultrow->timestamp)."</td></tr>";
+	echo "<tr><th class=\"leftheader\" scope=\"col\">Time</th><td>".strftime("%B %d %Y %r",$resultrow->timestamp)."</td></tr>";
 }
 
 $res = mysql_query("SELECT count(webUsers.id) FROM webUsers WHERE hashrate > 0") or sqlerr(__FILE__, __LINE__);
 $row = mysql_fetch_array($res);
 $users = $row[0];
 
-echo "<tr><th scope=\"col\">Current Users Mining</th><td>".$users."</td></tr>";
-echo "<tr><th scope=\"col\">Current Total Miners</th><td>".$settings->getsetting('currentworkers')."</td></tr>";
+echo "<tr><th class=\"leftheader\" scope=\"col\">Current Users Mining</th><td>".$users."</td></tr>";
+echo "<tr><th class=\"leftheader\" scope=\"col\">Current Total Miners</th><td>".$settings->getsetting('currentworkers')."</td></tr>";
 echo "</table>";
 
 echo "<br><a href=blocks.php style=\"color: blue\">More Block Info</a><br>";
