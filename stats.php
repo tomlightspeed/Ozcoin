@@ -18,18 +18,24 @@
 
 include ("includes/header.php");
 
+$numberResults = 30;
+
 $bitcoinController = new BitcoinClient($rpcType, $rpcUsername, $rpcPassword, $rpcHost);
 
 ?>
 <table><tr><td>
 <h1>Member Stats</h1><br/>
 <table border="1" cellspacing=0 cellpadding=5>
-<tr><td><b>Top 20 Hashrates</b></td></td><td><b>Top 20 Lifetime Shares</b></td></tr>
+<?php
+
+echo "<tr><td><b>Top $numberResults Hashrates</b></td></td><td><b>Top $numberResults Lifetime Shares</b></td></tr>";
+
+?>
 <tr><td><table width=100% border="1">
 <tr><td>Rank</td><td>User Name</td><td>Hashrate</td></tr>
 <?php
 
-$result = mysql_query("SELECT id, hashrate FROM webUsers ORDER BY hashrate DESC LIMIT 30");
+$result = mysql_query("SELECT id, hashrate FROM webUsers ORDER BY hashrate DESC LIMIT " . $numberResults);
 $rank = 1;
 
 while ($resultrow = mysql_fetch_object($result)) {
@@ -46,7 +52,7 @@ while ($resultrow = mysql_fetch_object($result)) {
 <tr><td>User Name</td><td>Shares</td></tr>
 <?php
 
-$result = mysql_query("SELECT id, share_count, stale_share_count FROM webUsers ORDER BY share_count DESC LIMIT 30");
+$result = mysql_query("SELECT id, share_count, stale_share_count FROM webUsers ORDER BY share_count DESC LIMIT " . $numberResults);
 
 while ($resultrow = mysql_fetch_object($result)) {
 	$resdss = mysql_query("SELECT username FROM webUsers WHERE id=$resultrow->id");
@@ -60,7 +66,7 @@ while ($resultrow = mysql_fetch_object($result)) {
 </table>
 <?php
 
-echo "</td><td>"; // start server stats
+echo "</td><td style=\"vertical-align:top;\">"; // START SERVER STATS
 echo "<h2>Server Stats</h2><br/>";
 echo "Current Block: ".$bitcoinController->query("getblocknumber")."\n<br/>";
 echo "Current Difficulty: ".round($bitcoinController->query("getdifficulty"), 2)."<br/>";
@@ -79,6 +85,7 @@ $users = $row[0];
 
 echo "<br>Current Users Mining: ".$users."<br/>";
 echo "Current Total Miners: ".$settings->getsetting('currentworkers')."<br/>";
+
 echo "</td></tr></table>";
 
 include("includes/footer.php");
