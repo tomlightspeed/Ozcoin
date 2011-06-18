@@ -98,11 +98,13 @@ while ($resultrow = mysql_fetch_object($result)) {
 </table>
 </div>
 <div id="stats_server">
+<table class="stats_table">
 <?php
 
 // START SERVER STATS
-echo "<h1>Server Stats</h1><br/>";
-echo "Current Block: ".$bitcoinController->query("getblocknumber")."\n<br/>";
+echo "<tr><th colspan=\"2\" scope=\"col\">Server Stats</th></tr>";
+echo "<tr><th scope=\"col\">Current Block</th><td>".$bitcoinController->query("getblocknumber")."</td></tr>";
+echo "</table>";
 echo "Current Difficulty: ".round($bitcoinController->query("getdifficulty"), 2)."<br/>";
 
 $result = mysql_query("SELECT blockNumber, confirms, timestamp FROM networkBlocks WHERE confirms > 1 ORDER BY blockNumber DESC LIMIT 1");
@@ -119,6 +121,7 @@ $users = $row[0];
 
 echo "<br>Current Users Mining: ".$users."<br/>";
 echo "Current Total Miners: ".$settings->getsetting('currentworkers')."<br/>";
+
 echo "</div><div class=\"clear\"></div>";
 
 include("includes/footer.php");
