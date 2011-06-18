@@ -62,7 +62,7 @@ while ($resultrow = mysql_fetch_object($result)) {
 </table>
 </div>
 <div id="stats_lifetime">
-<table class="stats_table">
+<table class="stats_table member_width">
 <tr><th colspan="3" scope="col">Top <?php echo $numberResults;?> Lifetime Shares</th></tr>
 <tr><th scope="col">Rank</th><th scope="col">User Name</th><th scope="col">Shares</th></tr>
 <?php
@@ -98,7 +98,7 @@ while ($resultrow = mysql_fetch_object($result)) {
 </table>
 </div>
 <div id="stats_server">
-<table class="stats_table">
+<table class="stats_table server_width">
 <?php
 
 // START SERVER STATS
@@ -109,8 +109,9 @@ echo "<tr><th scope=\"col\">Current Difficulty</th><td>".round($bitcoinControlle
 $result = mysql_query("SELECT blockNumber, confirms, timestamp FROM networkBlocks WHERE confirms > 1 ORDER BY blockNumber DESC LIMIT 1");
 if ($resultrow = mysql_fetch_object($result)) {
 	echo "<tr><th scope=\"col\">Last Block Found</th><td>".$resultrow->blockNumber."</td></tr>";
-	echo "<tr><th scope=\"col\">Confirmations</th><td>".$resultrow->confirms;
-	if( (int)$resultRow->confirms > 99 )
+	$confirm_no = $resultrow->confirms;
+	echo "<tr><th scope=\"col\">Confirmations</th><td>".$confirm_no;
+	if( $confirm_no > 99 )
 	{
 		echo "&nbsp;<img src=\"/images/excited.gif\" />";
 	}
