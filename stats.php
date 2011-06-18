@@ -46,7 +46,6 @@ while ($resultrow = mysql_fetch_object($result)) {
 	{
 		echo "<tr><td>".$rank."</td><td>" . $username . "</td><td>" . $resultrow->hashrate . "</td></tr>";
 	}
-	echo
 	$rank++;
 }
 
