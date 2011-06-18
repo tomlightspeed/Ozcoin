@@ -23,7 +23,7 @@ $numberResults = 30;
 $bitcoinController = new BitcoinClient($rpcType, $rpcUsername, $rpcPassword, $rpcHost);
 
 ?>
-<h1>Member Stats</h1>
+
 <div id="stats_wrap">
 <div id="stats_members">
 <table class="stats_table">
@@ -37,7 +37,7 @@ $rank = 1;
 while ($resultrow = mysql_fetch_object($result)) {
 	$resdss = mysql_query("SELECT username FROM webUsers WHERE id=$resultrow->id");
 	$resdss = mysql_fetch_object($resdss);
-	$username = "$resdss->username";
+	$username = $resdss->username;
 	if( $username == $userInfo->username )
 	{
 		echo "<tr class=\"user_position\"><td>".$rank."</td><td>" . $username . "</td><td>" . $resultrow->hashrate . "</td></tr>";
