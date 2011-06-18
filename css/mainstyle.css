@@ -212,7 +212,16 @@ span.returnMessage{
   font-size: 0.9em;
   color: #000;
   background: #bcd0e4;
+}
+
+.member_width
+{
   width: 275px;
+}
+
+.server_width
+{
+  width: 350px;
 }
 
 .stats_table caption
