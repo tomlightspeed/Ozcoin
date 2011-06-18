@@ -26,14 +26,15 @@ $bitcoinController = new BitcoinClient($rpcType, $rpcUsername, $rpcPassword, $rp
 <div id="stats_wrap">
 <div id="stats_members">
 <h1>Member Stats</h1><br/>
-<table border="1" cellspacing=0 cellpadding=5>
+<table>
 <?php
 
-echo "<tr><td><b>Top $numberResults Hashrates</b></td></td><td><b>Top $numberResults Lifetime Shares</b></td></tr>";
+echo "<tr><th>Top $numberResults Hashrates</th><th>Top $numberResults Lifetime Shares</th></tr>";
 
 ?>
-<tr><td><table width=100% border="1">
-<tr><td>Rank</td><td>User Name</td><td>Hashrate</td></tr>
+<tr><td>
+<table class="stats_table">
+<tr><th>Rank</th><th>User Name</th><th>Hashrate</th></tr>
 <?php
 
 $result = mysql_query("SELECT id, hashrate FROM webUsers ORDER BY hashrate DESC LIMIT " . $numberResults);
@@ -49,8 +50,8 @@ while ($resultrow = mysql_fetch_object($result)) {
 
 ?>
 </table></td>
-<td><table border="1" width=100%>
-<tr><td>User Name</td><td>Shares</td></tr>
+<td><table class="stats_table">
+<tr><th>User Name</th><th>Shares</th></tr>
 <?php
 
 $result = mysql_query("SELECT id, share_count, stale_share_count FROM webUsers ORDER BY share_count DESC LIMIT " . $numberResults);
@@ -69,7 +70,7 @@ while ($resultrow = mysql_fetch_object($result)) {
 <div id="stats_server">
 <?php
 
-echo "<td style=\"vertical-align:top;padding-left:15px;\">"; // START SERVER STATS
+// START SERVER STATS
 echo "<h1>Server Stats</h1><br/>";
 echo "Current Block: ".$bitcoinController->query("getblocknumber")."\n<br/>";
 echo "Current Difficulty: ".round($bitcoinController->query("getdifficulty"), 2)."<br/>";
