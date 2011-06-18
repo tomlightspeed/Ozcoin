@@ -20,6 +20,11 @@ $includeDirectory = "/var/www/includes/";
 
 include($includeDirectory."requiredFunctions.php");
 
+//Verify source of cron job request
+if (isset($cronRemoteIP) && $_SERVER['REMOTE_ADDR'] !== $cronRemoteIP) {
+ die(header("Location: /"));
+}
+
 lock("payout.php");
 	
 /////////Pay users who have reached their threshold payout

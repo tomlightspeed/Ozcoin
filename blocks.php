@@ -41,8 +41,14 @@ $username = "$resdss->username";
 $splitUsername = explode(".", $resdss->username);
 $realUsername = $splitUsername[0];
 
+$confirms = $resultrow->confirms;
+
+if ($confirms > 120) {
+$confirms = Completed;
+}
+
 print("<td align=left>$resultrow->blockNumber</td>");
-print("<td align=left>$resultrow->confirms</td>");
+print("<td align=left>$confirms</td>");
 print("<td align=left>$realUsername</td>");
 print("<td align=left>".strftime("%B %d %Y %r",$resultrow->timestamp)."</td>");
 }

@@ -24,6 +24,12 @@ include($includeDirectory."requiredFunctions.php");
 
 lock("cronjob.php");
 
+//Verify source of cron job request
+if (isset($cronRemoteIP) && $_SERVER['REMOTE_ADDR'] !== $cronRemoteIP) {
+ die(header("Location: /"));
+}
+
+
 include($includeDirectory.'mtgox.php');
 /*
 //Update MtGox last price, bypass if failed
@@ -147,14 +153,14 @@ for($i = 0; $i < $numAccounts; $i++){
 			$lastSuccessfullBlockR = mysql_fetch_object($lastSuccessfullBlockQ);
 			$lastEmptyBlock = $lastSuccessfullBlockR->id;			
 
-			$insertBlockSuccess = mysql_query("UPDATE networkBlocks SET accountAddress = '".$transactions[$i]["txid"]."' WHERE id = ".$lastEmptyBlock)or die(mysql_error());
+			$insertBlockSuccess = mysql_query("UPDATE networkBlocks SET confirms = '1', accountAddress = '".$transactions[$i]["txid"]."' WHERE id = ".$lastEmptyBlock)or die(mysql_error());
 		}
 	}
 }
 
 
 //Go through all the transctionss from bitcoind and update their confirms
-$blockExistsQ = mysql_query("SELECT id,accountAddress FROM networkBlocks WHERE confirms > 1 ORDER BY blockNumber DESC LIMIT 1")or die(mysql_error());
+$blockExistsQ = mysql_query("SELECT id,accountAddress FROM networkBlocks WHERE confirms >= 1 ORDER BY blockNumber DESC LIMIT 1")or die(mysql_error());
 $blockExists = mysql_num_rows($blockExistsQ);
 $blockExists1 = mysql_fetch_object($blockExistsQ);
 $transactions1 = $bitcoinController->query("gettransaction" ,"$blockExists1->accountAddress");

@@ -1,5 +1,0 @@
-<?PHP
-if ($_SERVER[REMOTE_ADDR] !== '127.0.0.1') {
-print("You are not authorised to be here");
-}
-?>
