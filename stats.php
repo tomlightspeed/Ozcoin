@@ -38,7 +38,16 @@ while ($resultrow = mysql_fetch_object($result)) {
 	$resdss = mysql_query("SELECT username FROM webUsers WHERE id=$resultrow->id");
 	$resdss = mysql_fetch_object($resdss);
 	$username = "$resdss->username";
-	echo "<tr><td>".$rank."</td><td>".$username."</td><td>".$resultrow->hashrate."</td></tr>";
+	echo "<tr><td>".$rank."</td><td>";
+	if( $username == $userInfo->username )
+	{
+		echo "<strong>$username</strong>";
+	}
+	else
+	{
+		echo $username;
+	}
+	echo "</td><td>".$resultrow->hashrate."</td></tr>";
 	$rank++;
 }
 
@@ -48,16 +57,27 @@ while ($resultrow = mysql_fetch_object($result)) {
 <div id="stats_lifetime">
 <table class="stats_table">
 <tr><th colspan="3" scope="col">Top $numberResults Lifetime Shares</th></tr>
-<tr><th scope="col">User Name</th><th scope="col">Shares</th></tr>
+<tr><th scope="col">Rank</th><th scope="col">User Name</th><th scope="col">Shares</th></tr>
 <?php
 
 $result = mysql_query("SELECT id, share_count, stale_share_count FROM webUsers ORDER BY share_count DESC LIMIT " . $numberResults);
+$rank = 1;
 
 while ($resultrow = mysql_fetch_object($result)) {
 	$resdss = mysql_query("SELECT username FROM webUsers WHERE id=$resultrow->id");
 	$resdss = mysql_fetch_object($resdss);
 	$username = "$resdss->username";
-	echo "<tr><td>".$username."</td><td>".($resultrow->share_count - $resultrow->stale_share_count)."</td></tr>";
+	echo "<tr><td>" . $rank . "</td><td>";
+	if( $username == $userInfo->username )
+	{
+		echo "<strong>$username</strong>";
+	}
+	else
+	{
+		echo $username;
+	}
+	echo "</td><td>" . ($resultrow->share_count - $resultrow->stale_share_count) . "</td></tr>";
+	$rank++;
 }
 
 ?>
