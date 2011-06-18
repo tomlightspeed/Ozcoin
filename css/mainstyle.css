@@ -207,6 +207,11 @@ span.returnMessage{
 	float:left;
 }
 
+#stats_lifetime {
+	width:30%;
+	float:left;
+}
+
 #stats_server {
 	width:30%;
 	float:right;
