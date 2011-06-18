@@ -66,8 +66,8 @@ while ($resultrow = mysql_fetch_object($result)) {
 </table>
 <?php
 
-echo "</td><td style=\"vertical-align:top;\">"; // START SERVER STATS
-echo "<h2>Server Stats</h2><br/>";
+echo "</td><td style=\"vertical-align:top;padding-left:15px;\">"; // START SERVER STATS
+echo "<h1>Server Stats</h1><br/>";
 echo "Current Block: ".$bitcoinController->query("getblocknumber")."\n<br/>";
 echo "Current Difficulty: ".round($bitcoinController->query("getdifficulty"), 2)."<br/>";
 
@@ -85,7 +85,6 @@ $users = $row[0];
 
 echo "<br>Current Users Mining: ".$users."<br/>";
 echo "Current Total Miners: ".$settings->getsetting('currentworkers')."<br/>";
-
 echo "</td></tr></table>";
 
 include("includes/footer.php");
