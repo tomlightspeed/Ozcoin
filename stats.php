@@ -40,12 +40,21 @@ while ($resultrow = mysql_fetch_object($result)) {
 	$username = $resdss->username;
 	if( $username == $userInfo->username )
 	{
-		echo "<tr class=\"user_position\"><td>".$rank."</td><td>" . $username . "</td><td>" . $resultrow->hashrate . "</td></tr>";
+		echo "<tr class=\"user_position\">";
 	}
 	else
 	{
-		echo "<tr><td>".$rank."</td><td>" . $username . "</td><td>" . $resultrow->hashrate . "</td></tr>";
+		echo "<tr>";
 	}
+	echo "<td>" . $rank;
+	
+	if( $rank == 1 )
+	{
+		echo "&nbsp;<img src=\"/images/crown.png\" />";
+	}
+	
+	echo "</td><td>" . $username . "</td><td>" . $resultrow->hashrate . "</td></tr>";
+		
 	$rank++;
 }
 
@@ -67,12 +76,21 @@ while ($resultrow = mysql_fetch_object($result)) {
 	$username = "$resdss->username";
 	if( $username == $userInfo->username )
 	{
-		echo "<tr class=\"user_position\"><td>" . $rank . "</td><td>" . $username . "</td><td>" . ($resultrow->share_count - $resultrow->stale_share_count) . "</td></tr>";
+		echo "<tr class=\"user_position\">";
 	}
 	else
 	{
-		echo "<tr><td>" . $rank . "</td><td>" . $username . "</td><td>" . ($resultrow->share_count - $resultrow->stale_share_count) . "</td></tr>";
+		echo "<tr>";
 	}
+	
+	echo "<td>" . $rank;
+	
+	if( $rank == 1 )
+	{
+		echo "&nbsp;<img src=\"/images/crown.png\" />";
+	}
+	
+	echo "</td><td>" . $username . "</td><td>" . ($resultrow->share_count - $resultrow->stale_share_count) . "</td></tr>";
 	$rank++;
 }
 
