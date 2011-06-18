@@ -38,7 +38,7 @@ else $pageTitle = outputPageTitle(). " ". $pageTitle;
 			//If user isn't logged in load the login.js
 			if(!$cookieValid){
 		?>
-			<script src="/js/login.js"></script>
+			<script src="/include/login.js"></script>
 		<?php
 			}
 		?>
