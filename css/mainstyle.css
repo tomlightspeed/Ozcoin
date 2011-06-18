@@ -186,13 +186,14 @@ span.returnMessage{
 }
 
 #stats_members {
+	min-width:300px;
 	width:300px;
 	float:left;
 }
 
 #stats_lifetime {
+	min-width:300px;
 	width:300px;
-	padding-left:15px;
 	float:left;
 }
 
