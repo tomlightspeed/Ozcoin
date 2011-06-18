@@ -26,7 +26,7 @@ $bitcoinController = new BitcoinClient($rpcType, $rpcUsername, $rpcPassword, $rp
 
 <div id="stats_wrap">
 <div id="stats_members">
-<table class="stats_table">
+<table class="stats_table member_width">
 <tr><th colspan="3" scope="col">Top <?php echo $numberResults;?> Hashrates</th></tr>
 <tr><th scope="col">Rank</th><th scope="col">User Name</th><th scope="col">Hashrate</th></tr>
 <?php
