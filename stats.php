@@ -27,8 +27,8 @@ $bitcoinController = new BitcoinClient($rpcType, $rpcUsername, $rpcPassword, $rp
 <div id="stats_members">
 <h1>Member Stats</h1><br/>
 <table class="stats_table">
-<tr><th colspan="3">Top $numberResults Hashrates</th></tr>
-<tr><th>Rank</th><th>User Name</th><th>Hashrate</th></tr>
+<tr><th colspan="3" scope="col">Top $numberResults Hashrates</th></tr>
+<tr><th scope="col">Rank</th><th scope="col">User Name</th><th scope="col">Hashrate</th></tr>
 <?php
 
 $result = mysql_query("SELECT id, hashrate FROM webUsers ORDER BY hashrate DESC LIMIT " . $numberResults);
@@ -45,8 +45,8 @@ while ($resultrow = mysql_fetch_object($result)) {
 ?>
 </table>
 <table class="stats_table">
-<tr><th colspan="3">Top $numberResults Lifetime Shares</th></tr>
-<tr><th>User Name</th><th>Shares</th></tr>
+<tr><th colspan="3" scope="col">Top $numberResults Lifetime Shares</th></tr>
+<tr><th scope="col">User Name</th><th scope="col">Shares</th></tr>
 <?php
 
 $result = mysql_query("SELECT id, share_count, stale_share_count FROM webUsers ORDER BY share_count DESC LIMIT " . $numberResults);
