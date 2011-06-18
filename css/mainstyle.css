@@ -196,3 +196,22 @@ span.returnMessage{
 	padding-right: 1em;
 }
 
+#stats_wrap {
+	width: 100%;
+	overflow: auto;
+	padding:15px;
+}
+
+#stats_members {
+	width:30%;
+	float:left;
+}
+
+#stats_server {
+	width:30%;
+	float:right;
+}
+
+.clear {
+	clear:both;
+}
