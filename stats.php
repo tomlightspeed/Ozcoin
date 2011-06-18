@@ -23,11 +23,11 @@ $numberResults = 30;
 $bitcoinController = new BitcoinClient($rpcType, $rpcUsername, $rpcPassword, $rpcHost);
 
 ?>
+<h1>Member Stats</h1>
 <div id="stats_wrap">
 <div id="stats_members">
-<h1>Member Stats</h1><br/>
 <table class="stats_table">
-<tr><th colspan="3" scope="col">Top $numberResults Hashrates</th></tr>
+<tr><th colspan="3" scope="col">Top <?php echo $numberResults;?> Hashrates</th></tr>
 <tr><th scope="col">Rank</th><th scope="col">User Name</th><th scope="col">Hashrate</th></tr>
 <?php
 
@@ -38,16 +38,15 @@ while ($resultrow = mysql_fetch_object($result)) {
 	$resdss = mysql_query("SELECT username FROM webUsers WHERE id=$resultrow->id");
 	$resdss = mysql_fetch_object($resdss);
 	$username = "$resdss->username";
-	echo "<tr><td>".$rank."</td><td>";
 	if( $username == $userInfo->username )
 	{
-		echo "<strong>$username</strong>";
+		echo "<tr class=\"user_position\"><td>".$rank."</td><td>" . $username . "</td><td>" . $resultrow->hashrate . "</td></tr>";
 	}
 	else
 	{
-		echo $username;
+		echo "<tr><td>".$rank."</td><td>" . $username . "</td><td>" . $resultrow->hashrate . "</td></tr>";
 	}
-	echo "</td><td>".$resultrow->hashrate."</td></tr>";
+	echo
 	$rank++;
 }
 
@@ -56,7 +55,7 @@ while ($resultrow = mysql_fetch_object($result)) {
 </div>
 <div id="stats_lifetime">
 <table class="stats_table">
-<tr><th colspan="3" scope="col">Top $numberResults Lifetime Shares</th></tr>
+<tr><th colspan="3" scope="col">Top <?php echo $numberResults;?> Lifetime Shares</th></tr>
 <tr><th scope="col">Rank</th><th scope="col">User Name</th><th scope="col">Shares</th></tr>
 <?php
 
@@ -67,16 +66,14 @@ while ($resultrow = mysql_fetch_object($result)) {
 	$resdss = mysql_query("SELECT username FROM webUsers WHERE id=$resultrow->id");
 	$resdss = mysql_fetch_object($resdss);
 	$username = "$resdss->username";
-	echo "<tr><td>" . $rank . "</td><td>";
 	if( $username == $userInfo->username )
 	{
-		echo "<strong>$username</strong>";
+		echo "<tr class=\"user_position\"><td>" . $rank . "</td><td>" . $username . "</td><td>" . ($resultrow->share_count - $resultrow->stale_share_count) . "</td></tr>";
 	}
 	else
 	{
-		echo $username;
+		echo "<tr><td>" . $rank . "</td><td>" . $username . "</td><td>" . ($resultrow->share_count - $resultrow->stale_share_count) . "</td></tr>";
 	}
-	echo "</td><td>" . ($resultrow->share_count - $resultrow->stale_share_count) . "</td></tr>";
 	$rank++;
 }
 
