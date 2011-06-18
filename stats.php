@@ -26,14 +26,8 @@ $bitcoinController = new BitcoinClient($rpcType, $rpcUsername, $rpcPassword, $rp
 <div id="stats_wrap">
 <div id="stats_members">
 <h1>Member Stats</h1><br/>
-<table>
-<?php
-
-echo "<tr><th>Top $numberResults Hashrates</th><th>Top $numberResults Lifetime Shares</th></tr>";
-
-?>
-<tr><td>
 <table class="stats_table">
+<tr><th colspan="3">Top $numberResults Hashrates</th></tr>
 <tr><th>Rank</th><th>User Name</th><th>Hashrate</th></tr>
 <?php
 
@@ -49,8 +43,9 @@ while ($resultrow = mysql_fetch_object($result)) {
 }
 
 ?>
-</table></td>
-<td><table class="stats_table">
+</table>
+<table class="stats_table">
+<tr><th colspan="3">Top $numberResults Lifetime Shares</th></tr>
 <tr><th>User Name</th><th>Shares</th></tr>
 <?php
 
@@ -64,7 +59,6 @@ while ($resultrow = mysql_fetch_object($result)) {
 }
 
 ?>
-</table></td></tr>
 </table>
 </div>
 <div id="stats_server">
