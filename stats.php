@@ -38,7 +38,7 @@ if ($resultrow = mysql_fetch_object($result)) {
 	echo "<br>Last Block Found: ".$resultrow->blockNumber."<br/>";
 	echo "Confirmations: ".$resultrow->confirms."<br/>";
 	echo "Time: ".strftime("%B %d %Y %r",$resultrow->timestamp)."<br/>";
-	echo "<br><a href=blocks.php style=\"color: blue\">More Blocks</a><br>";
+	echo "<br><a href=blocks.php style=\"color: blue\">More Block Info</a><br>";
 }
 
 $res = mysql_query("SELECT count(webUsers.id) FROM webUsers WHERE hashrate > 0") or sqlerr(__FILE__, __LINE__);
