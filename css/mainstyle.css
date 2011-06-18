@@ -186,12 +186,12 @@ span.returnMessage{
 }
 
 #stats_members {
-	width:30%;
+	width:200px;
 	float:left;
 }
 
 #stats_lifetime {
-	width:30%;
+	width:200px;
 	float:left;
 }
 
@@ -257,7 +257,7 @@ span.returnMessage{
   color: #2a4763;
 }
 
-.stats_table tr:hover th[scope=row], .stats_table tr:hover td
+.stats_table .user_position th[scope=row], .stats_table .user_position td
 {
   background-color: #632a2a;
   color: #fff;
