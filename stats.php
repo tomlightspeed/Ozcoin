@@ -110,7 +110,7 @@ $result = mysql_query("SELECT blockNumber, confirms, timestamp FROM networkBlock
 if ($resultrow = mysql_fetch_object($result)) {
 	echo "<tr><th scope=\"col\">Last Block Found</th><td>".$resultrow->blockNumber."</td></tr>";
 	echo "<tr><th scope=\"col\">Confirmations</th><td>".$resultrow->confirms;
-	if( $resultRow->confirms > 99 )
+	if( (int)$resultRow->confirms > 99 )
 	{
 		echo "&nbsp;<img src=\"/images/excited.gif\" />";
 	}
