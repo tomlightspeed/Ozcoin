@@ -186,12 +186,13 @@ span.returnMessage{
 }
 
 #stats_members {
-	width:200px;
+	width:300px;
 	float:left;
 }
 
 #stats_lifetime {
-	width:200px;
+	width:300px;
+	padding-left:15px;
 	float:left;
 }
 
