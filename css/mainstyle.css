@@ -181,25 +181,20 @@ span.returnMessage{
 
 #stats_wrap {
 	width: 1024px;
-	/*overflow: auto;*/
-	padding:15px;
+	padding:0px;
+	margin:0px;
 }
 
 #stats_members {
-	/*min-width:300px;
-	width:300px;*/
 	float:left;
 }
 
 #stats_lifetime {
-	/*min-width:300px;
-	width:300px;*/
 	padding-left:10px;
 	float:left;
 }
 
 #stats_server {
-	/*width:30%;*/
 	padding-left:10px;
 	float:left;
 }
@@ -224,6 +219,11 @@ span.returnMessage{
 .server_width
 {
   width: 400px;
+}
+
+.top_spacing
+{
+  margin-top: 10px;
 }
 
 .stats_table caption
@@ -253,7 +253,7 @@ span.returnMessage{
   border-right: 2px solid #333;
 }
 
-.stats_table th+th[scope=col], .leftheader[scope=col]
+.stats_table th+th[scope=col], .leftheader
 {
   color: #fff;
   background-color: #7d98b3;
