@@ -159,8 +159,9 @@ span.returnMessage{
 #leftsidebar {
 	float: left;
 	background-color:#DDD;
-	width: 230px;
+	width: 227px;
 	padding:10px;
+	margin-right:10px;
 	overflow: none;
 
 }
@@ -169,7 +170,7 @@ span.returnMessage{
 	white-space: normal;
 	/*padding: 1em;*/
 	/*margin: .5em;*/
-	margin-left: 250px;
+	margin-left: 247px;
 	margin-top: 10px;
 	background-color: #FFF;
 
