@@ -159,17 +159,17 @@ span.returnMessage{
 #leftsidebar {
 	float: left;
 	background-color:#DDD;
-	width: 16em;
-	padding:.5em;
+	width: 160px;
+	padding:10px;
 	overflow: none;
 
 }
 
 #content {
 	white-space: normal;
-	padding: 1em;
-	margin: .5em;
-	margin-left: 17em;
+	/*padding: 1em;*/
+	/*margin: .5em;*/
+	margin-left: 170px;
 	background-color: #FFF;
 
 }
