@@ -16,8 +16,9 @@
 
 // 	  BTC Donations: 163Pv9cUDJTNUbadV4HMRQSSj3ipwLURRc
 //
-//    Improved Stats written by Tom Lightspeed (tomlightspeed@gmail.com)
+//    Improved Stats written by Tom Lightspeed (tomlightspeed@gmail.com + http://facebook.com/tomlightspeed)
 //    Developed Socially for http://ozco.in
+//    If you liked my work, want changes/etc please contact me or donate 16p56JHwLna29dFhTRcTAurj4Zc2eScxTD.
 //    May the force be with you.
 
 $pageTitle = "- Stats";
@@ -184,7 +185,7 @@ echo "<tr><td class=\"leftheader\">Current Total Miners</td><td>" . number_forma
 $hashrate = $settings->getsetting('currenthashrate') / 1000;
 $show_hashrate = round($hashrate,3);
 //time = difficulty * 2**32 / hashrate
-$time_to_find = (($difficulty * 2^32) / ($hashrate * 10^9)) / 3600;
+$time_to_find = (($difficulty * bcpow(2,32)) / ($hashrate * bcpow(10,9))) / 3600;
 $time_to_find = round( $time_to_find, 2 );
 
 echo "<tr><td class=\"leftheader\">Pool Hash Rate</td><td>". number_format($show_hashrate, 3) ." Ghashes/s</td></tr>";
