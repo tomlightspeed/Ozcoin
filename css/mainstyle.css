@@ -254,7 +254,7 @@ span.returnMessage{
 
 .stats_table th+th[scope=col], .leftheader
 {
-  color: #fff;
+  color: #fff !important;
   background-color: #7d98b3;
   border-right: 1px dotted #666;
 }
