@@ -64,16 +64,16 @@ while ($resultrow = mysql_fetch_object($result)) {
 if( $cookieValid && $user_found == false )
 {
 	$query_init       = "SET @rownum := 0";
- 
+
 	$query_getrank    =   "SELECT rank, hashrate FROM (
                         SELECT @rownum := @rownum + 1 AS rank, hashrate, id
                         FROM webUsers ORDER BY hashrate DESC
                         ) as result WHERE id=" . $userInfo->id;
-	
+
 	mysql_query( $query_init );
 	$result = mysql_query( $query_getrank );
 	$row = mysql_fetch_array( $result );
-		
+
 	echo "<tr class=\"user_position\"><td>" . $row['rank'] . "</td><td>" . $userInfo->username . "</td><td>" . number_format( $row['hashrate'] ) . "</td></tr>";
 }
 ?>
@@ -117,16 +117,16 @@ while ($resultrow = mysql_fetch_object($result)) {
 if( $cookieValid && $user_found == false )
 {
 	$query_init       = "SET @rownum := 0";
- 
+
 	$query_getrank    =   "SELECT rank, shares FROM (
                         SELECT @rownum := @rownum + 1 AS rank, share_count-stale_share_count AS shares, id
                         FROM webUsers ORDER BY shares DESC
                         ) as result WHERE id=" . $userInfo->id;
-	
+
 	mysql_query( $query_init );
 	$result = mysql_query( $query_getrank );
 	$row = mysql_fetch_array( $result );
-		
+
 	echo "<tr class=\"user_position\"><td>" . $row['rank'] . "</td><td>" . $userInfo->username . "</td><td>" . number_format( $row['shares'] ) . "</td></tr>";
 }
 ?>
@@ -181,7 +181,7 @@ $show_hashrate = round($hashrate,3);
 //time = difficulty * 2**32 / hashrate
 $time_to_find = round( ($difficulty * 2^32 / $hashrate^9 / 60 / 60), 2 );
 
-echo "<tr><th class=\"leftheader\">Pool Hash Rate</th><td>". number_format($show_hashrate) ."</td></tr>";
+echo "<tr><th class=\"leftheader\">Pool Hash Rate</th><td>". number_format($show_hashrate, 3) ."</td></tr>";
 echo "<tr><th class=\"leftheader\">Time To Find Block</th><td>" . $time_to_find . " Hours</td></tr>";
 echo "</table>";
 
@@ -206,9 +206,9 @@ while($resultrow = mysql_fetch_object($result)) {
 	if ($confirms > 120) {
 		$confirms = Completed;
 	}
-	
+
 	$block_no = $resultrow->blockNumber;
-	
+
 	echo "<td><a href=\"http://blockexplorer.com/b/$block_no\">" . number_format($block_no) . "</a></td>";
 	echo "<td>" . $confirms . "</td>";
 	echo "<td>$realUsername</td>";
