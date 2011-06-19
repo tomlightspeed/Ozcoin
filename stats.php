@@ -103,20 +103,31 @@ while ($resultrow = mysql_fetch_object($result)) {
 
 // START SERVER STATS
 echo "<tr><th colspan=\"2\" scope=\"col\">Server Stats</th></tr>";
-echo "<tr><th class=\"leftheader\" scope=\"col\">Current Block</th><td>".$bitcoinController->query("getblocknumber")."</td></tr>";
-echo "<tr><th class=\"leftheader\" scope=\"col\">Current Difficulty</th><td>".round($bitcoinController->query("getdifficulty"), 2)."</td></tr>";
+
+$current_block_no = $bitcoinController->query("getblocknumber");
+
+echo "<tr><th class=\"leftheader\" scope=\"col\">Current Block</th><td><a href=\"http://blockexplorer.com/b/" . $current_block_no . "\">";
+echo $current_block_no . "</a></td></tr>";
+echo "<tr><th class=\"leftheader\" scope=\"col\">Current Difficulty</th><td><a href=\"http://dot-bit.org/tools/nextDifficulty.php\">".round($bitcoinController->query("getdifficulty"), 2)."</a></td></tr>";
 
 $result = mysql_query("SELECT blockNumber, confirms, timestamp FROM networkBlocks WHERE confirms > 1 ORDER BY blockNumber DESC LIMIT 1");
+
 if ($resultrow = mysql_fetch_object($result)) {
-	echo "<tr><th class=\"leftheader\" scope=\"col\">Last Block Found</th><td>".$resultrow->blockNumber."</td></tr>";
+
+	$found_block_no = $resultrow->blockNumber;
 	$confirm_no = $resultrow->confirms;
-	echo "<tr><th class=\"leftheader\" scope=\"col\">Confirmations</th><td>".$confirm_no;
+
+	echo "<tr><th class=\"leftheader\" scope=\"col\">Last Block Found</th><td><a href=\"http://blockexplorer.com/b/" . $found_block_no . "\">" . $found_block_no . "</a></td></tr>";
+	echo "<tr><th class=\"leftheader\" scope=\"col\">Confirmations</th><td>" . $confirm_no;
+
 	if( $confirm_no > 99 )
 	{
 		echo "&nbsp;<img src=\"/images/excited.gif\" />";
 	}
+
 	echo "</td></tr>";
-	echo "<tr><th class=\"leftheader\" scope=\"col\">Time</th><td>".strftime("%B %d %Y %r",$resultrow->timestamp)."</td></tr>";
+	echo "<tr><th class=\"leftheader\" scope=\"col\">Time Found</th><td>".strftime("%B %d %Y %r",$resultrow->timestamp)."</td></tr>";
+
 }
 
 $res = mysql_query("SELECT count(webUsers.id) FROM webUsers WHERE hashrate > 0") or sqlerr(__FILE__, __LINE__);
