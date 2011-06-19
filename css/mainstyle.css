@@ -20,7 +20,7 @@ Website Reference:http://www.gnu.org/licenses/gpl-2.0.html
 *{
 	margin:0;
 	padding:0;
-	
+
 }
 
 body{
@@ -90,7 +90,7 @@ a.menu:hover{
 
 #userInfo{
 	float: left;
-	background-color:#DDD;	
+	background-color:#DDD;
 	width:15em;
 	height: 100%;
 	padding:.5em;
@@ -102,7 +102,7 @@ a.menu:hover{
 }
 
 #blogContainer{
-		
+
 		margin-left:1em;
 		padding-top:1em;
 		padding-left:1em;
@@ -113,7 +113,7 @@ a.menu:hover{
 }
 
 /*-----Menu Buttons------*/
-#menuBar{	
+#menuBar{
 	background-color:#000;
 	width: 100%;
 	min-height:2em;
@@ -156,22 +156,22 @@ span.returnMessage{
 	font-size:1.5em;
 }
 
-#leftsidebar {		
+#leftsidebar {
 	float: left;
 	background-color:#DDD;
-	width: 16em;	
+	width: 16em;
 	padding:.5em;
 	overflow: none;
-	
+
 }
 
 #content {
 	white-space: normal;
 	padding: 1em;
 	margin: .5em;
-	margin-left: 17em;	
+	margin-left: 17em;
 	background-color: #FFF;
-	
+
 }
 
 #currentRates {
@@ -186,14 +186,14 @@ span.returnMessage{
 }
 
 #stats_members {
-	min-width:300px;
-	width:300px;
+	/*min-width:300px;
+	width:300px;*/
 	float:left;
 }
 
 #stats_lifetime {
-	min-width:300px;
-	width:300px;
+	/*min-width:300px;
+	width:300px;*/
 	float:left;
 }
 
@@ -251,7 +251,7 @@ span.returnMessage{
   border-right: 2px solid #333;
 }
 
-.stats_table th+th[scope=col], .stats_table th .leftheader
+.stats_table th+th[scope=col], .leftheader[scope=col]
 {
   color: #fff;
   background-color: #7d98b3;
