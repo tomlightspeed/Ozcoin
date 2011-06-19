@@ -181,8 +181,8 @@ $show_hashrate = round($hashrate,3);
 //time = difficulty * 2**32 / hashrate
 $time_to_find = round( ( ((($difficulty * 2^32) / $hashrate^9) / 60) / 60), 2 );
 
-echo "<tr><th class=\"leftheader\">Pool Hash Rate</th><td>". number_format($show_hashrate, 3) ." Ghash/s</td></tr>";
-echo "<tr><th class=\"leftheader\">Time To Find Block</th><td>" . $time_to_find . " Hours</td></tr>";
+echo "<tr><td class=\"leftheader\">Pool Hash Rate</td><td>". number_format($show_hashrate, 3) ." Ghash/s</td></tr>";
+echo "<tr><td class=\"leftheader\">Time To Find Block</td><td>" . $time_to_find . " Hours</td></tr>";
 echo "</table>";
 
 // SHOW LAST (=$last_no_blocks_found) BLOCKS FOUND
