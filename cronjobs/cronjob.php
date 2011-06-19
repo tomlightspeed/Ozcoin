@@ -29,16 +29,6 @@ if (isset($cronRemoteIP) && $_SERVER['REMOTE_ADDR'] !== $cronRemoteIP) {
  die(header("Location: /"));
 }
 
-
-include($includeDirectory.'mtgox.php');
-/*
-//Update MtGox last price, bypass if failed
-try {
-	$mtgox = new mtgox("", "");
-	$ticker = $mtgox->ticker();
-	if (intval($ticker['last']) > 0) $settings->setsetting('mtgoxlast', $ticker['last']);
-} catch (Exception $e) { }
-*/
 //Open a bitcoind connection
 $bitcoinController = new BitcoinClient($rpcType, $rpcUsername, $rpcPassword, $rpcHost);
 
@@ -230,5 +220,4 @@ if($blockExists){
 		$poolReward = $B -$overallReward;
 		mysql_query("UPDATE settings SET value = value +".$poolReward." WHERE setting='sitebalance'");
 	}
-
 ?>

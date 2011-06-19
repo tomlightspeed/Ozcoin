@@ -28,11 +28,15 @@ if ($resultrow = mysql_fetch_object($result)) {
 	$blocktime = $resultrow->time;
 	$solvedby = $resultrow->username;
 }
+$result = mysql_query("SELECT id,confirms FROM networkBlocks WHERE confirms >= 1 ORDER BY blockNumber DESC LIMIT 1");
+if ($resultrow = mysql_fetch_object($result)) {
+	$confirms = $resultrow->confirms;
+}
 
 
 $timediff = time() - strtotime($blocktime);
 $solved = explode(".", $solvedby);
-echo $hashrate."g-".$users."-".$blocknumber."-".$timediff."-".$solved[0];
+echo $hashrate."g-".$users."-".$blocknumber."-".$timediff."-".$solved[0]."-".$confirms;
 
 
 ?>

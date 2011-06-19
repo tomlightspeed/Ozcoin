@@ -18,70 +18,118 @@
 
 include ("includes/header.php");
 
-$stats = 'offline1';
-
-if($stats === 'offline') {
-echo "Stats Offline until we can update the mysql db hits, hopefully tommorow some time";
-	exit;
-}
+$numberResults = 30;
 
 $bitcoinController = new BitcoinClient($rpcType, $rpcUsername, $rpcPassword, $rpcHost);
 
+?>
 
-echo "<h2>Server Stats</h2><br/>";
+<div id="stats_wrap">
+<div id="stats_members">
+<table class="stats_table">
+<tr><th colspan="3" scope="col">Top <?php echo $numberResults;?> Hashrates</th></tr>
+<tr><th scope="col">Rank</th><th scope="col">User Name</th><th scope="col">Hashrate</th></tr>
+<?php
 
-echo "Current Block: ".$bitcoinController->query("getblocknumber")."\n<br/>";
-echo "Current Difficulty: ".round($bitcoinController->query("getdifficulty"), 2)."<br/>";
+$result = mysql_query("SELECT id, hashrate FROM webUsers ORDER BY hashrate DESC LIMIT " . $numberResults);
+$rank = 1;
+
+while ($resultrow = mysql_fetch_object($result)) {
+	$resdss = mysql_query("SELECT username FROM webUsers WHERE id=$resultrow->id");
+	$resdss = mysql_fetch_object($resdss);
+	$username = $resdss->username;
+	if( $username == $userInfo->username )
+	{
+		echo "<tr class=\"user_position\">";
+	}
+	else
+	{
+		echo "<tr>";
+	}
+	echo "<td>" . $rank;
+	
+	if( $rank == 1 )
+	{
+		echo "&nbsp;<img src=\"/images/crown.png\" />";
+	}
+	
+	echo "</td><td>" . $username . "</td><td>" . $resultrow->hashrate . "</td></tr>";
+		
+	$rank++;
+}
+
+?>
+</table>
+</div>
+<div id="stats_lifetime">
+<table class="stats_table member_width">
+<tr><th colspan="3" scope="col">Top <?php echo $numberResults;?> Lifetime Shares</th></tr>
+<tr><th scope="col">Rank</th><th scope="col">User Name</th><th scope="col">Shares</th></tr>
+<?php
+
+$result = mysql_query("SELECT id, share_count, stale_share_count FROM webUsers ORDER BY share_count DESC LIMIT " . $numberResults);
+$rank = 1;
+
+while ($resultrow = mysql_fetch_object($result)) {
+	$resdss = mysql_query("SELECT username FROM webUsers WHERE id=$resultrow->id");
+	$resdss = mysql_fetch_object($resdss);
+	$username = "$resdss->username";
+	if( $username == $userInfo->username )
+	{
+		echo "<tr class=\"user_position\">";
+	}
+	else
+	{
+		echo "<tr>";
+	}
+	
+	echo "<td>" . $rank;
+	
+	if( $rank == 1 )
+	{
+		echo "&nbsp;<img src=\"/images/crown.png\" />";
+	}
+	
+	echo "</td><td>" . $username . "</td><td>" . ($resultrow->share_count - $resultrow->stale_share_count) . "</td></tr>";
+	$rank++;
+}
+
+?>
+</table>
+</div>
+<div id="stats_server">
+<table class="stats_table server_width">
+<?php
+
+// START SERVER STATS
+echo "<tr><th colspan=\"2\" scope=\"col\">Server Stats</th></tr>";
+echo "<tr><th class=\"leftheader\" scope=\"col\">Current Block</th><td>".$bitcoinController->query("getblocknumber")."</td></tr>";
+echo "<tr><th class=\"leftheader\" scope=\"col\">Current Difficulty</th><td>".round($bitcoinController->query("getdifficulty"), 2)."</td></tr>";
 
 $result = mysql_query("SELECT blockNumber, confirms, timestamp FROM networkBlocks WHERE confirms > 1 ORDER BY blockNumber DESC LIMIT 1");
 if ($resultrow = mysql_fetch_object($result)) {
-	echo "<br>Last Block Found: ".$resultrow->blockNumber."<br/>";
-	echo "Confirmations: ".$resultrow->confirms."<br/>";
-	echo "Time: ".strftime("%B %d %Y %r",$resultrow->timestamp)."<br/>";
-	echo "<br><a href=blocks.php style=\"color: blue\">More Block Info</a><br>";
+	echo "<tr><th class=\"leftheader\" scope=\"col\">Last Block Found</th><td>".$resultrow->blockNumber."</td></tr>";
+	$confirm_no = $resultrow->confirms;
+	echo "<tr><th class=\"leftheader\" scope=\"col\">Confirmations</th><td>".$confirm_no;
+	if( $confirm_no > 99 )
+	{
+		echo "&nbsp;<img src=\"/images/excited.gif\" />";
+	}
+	echo "</td></tr>";
+	echo "<tr><th class=\"leftheader\" scope=\"col\">Time</th><td>".strftime("%B %d %Y %r",$resultrow->timestamp)."</td></tr>";
 }
 
 $res = mysql_query("SELECT count(webUsers.id) FROM webUsers WHERE hashrate > 0") or sqlerr(__FILE__, __LINE__);
 $row = mysql_fetch_array($res);
 $users = $row[0];
 
-echo "<br>Current Users Mining: ".$users."<br/>";
-echo "Current Total Miners: ".$settings->getsetting('currentworkers')."<br/>";
+echo "<tr><th class=\"leftheader\" scope=\"col\">Current Users Mining</th><td>".$users."</td></tr>";
+echo "<tr><th class=\"leftheader\" scope=\"col\">Current Total Miners</th><td>".$settings->getsetting('currentworkers')."</td></tr>";
+echo "</table>";
 
-?><br/>
+echo "<br><a href=blocks.php style=\"color: blue\">More Block Info</a><br>";
+echo "</div><div class=\"clear\"></div>";
 
-<h1>Member Stats</h1><br/>
-<table border="1" cellspacing=0 cellpadding=5>
-<tr><td><b>Top 20 Hashrates</b></td></td><td><b>Top 20 Lifetime Shares</b></td></tr>
-<tr><td><table width=100% border="1">
-	<tr><td>Rank</td><td>User Name</td><td>Hashrate</td></tr>
-	<?php
+include("includes/footer.php");
 
- 		$result = mysql_query("SELECT id, hashrate FROM webUsers ORDER BY hashrate DESC LIMIT 20");
- 		$rank = 1;
- 		while ($resultrow = mysql_fetch_object($result)) {
-			$resdss = mysql_query("SELECT username FROM webUsers WHERE id=$resultrow->id");
-			$resdss = mysql_fetch_object($resdss);
-			$username = "$resdss->username";
-			echo "<tr><td>".$rank."</td><td>".$username."</td><td>".$resultrow->hashrate."</td></tr>";
-			$rank++;
- 		}
-	?>
-</table></td>
-<td><table border="1" width=100%>
-	<tr><td>User Name</td><td>Shares</td></tr>
-	<?php
-		$result = mysql_query("SELECT id, share_count, stale_share_count FROM webUsers ORDER BY share_count DESC LIMIT 20");
-		while ($resultrow = mysql_fetch_object($result)) {
-
-$resdss = mysql_query("SELECT username FROM webUsers WHERE id=$resultrow->id");
-$resdss = mysql_fetch_object($resdss);
-$username = "$resdss->username";
-
-			echo "<tr><td>".$username."</td><td>".($resultrow->share_count - $resultrow->stale_share_count)."</td></tr>";
-		}
 ?>
-</table></td></tr>
-</table>
-
-<?php include("includes/footer.php"); ?>				

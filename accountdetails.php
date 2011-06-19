@@ -152,7 +152,7 @@ if (isset($_POST["act"])) {
 		}
 
 
-	}else if($inputAuthPin != $authPin && $act){
+}else if($inputAuthPin != $authPin && $act != "addWorker"){
 		$returnError = "Authorization Pin is Invalid!";
 	}
 	

@@ -45,6 +45,7 @@ while($resultrow = mysql_fetch_object($result)) {
 }
 
 echo "</table>";
+echo "You will not get paid till Confirms have hit 120";
 echo "<br><a href=stats.php style=\"color: blue\">Back to stats</a><br>";
 
 include("includes/footer.php");
