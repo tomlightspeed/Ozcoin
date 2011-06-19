@@ -138,7 +138,36 @@ echo "<tr><th class=\"leftheader\" scope=\"col\">Current Users Mining</th><td>".
 echo "<tr><th class=\"leftheader\" scope=\"col\">Current Total Miners</th><td>".$settings->getsetting('currentworkers')."</td></tr>";
 echo "</table>";
 
-echo "<br><a href=blocks.php style=\"color: blue\">More Block Info</a><br>";
+// SHOW LAST 5 BLOCKS FOUND
+
+echo "<table class=\"stats_table server_width\">";
+echo "<tr><th scope=\"col\" colspan=\"4\">Last 5 Blocks Found</th></tr>";
+echo "<tr><th scope=\"col\">Block</th><th scope=\"col\">Confirms</th><th scope=\"col\">Finder</th><th scope=\"col\">Time</th></tr>";
+
+$result = mysql_query("SELECT blockNumber, confirms, timestamp FROM networkBlocks WHERE confirms > 1 ORDER BY blockNumber DESC LIMIT 5");
+
+while($resultrow = mysql_fetch_object($result)) {
+	echo "<tr>";
+	$resdss = mysql_query("SELECT username FROM shares_history WHERE upstream_result = 'Y' AND blockNumber = $resultrow->blockNumber");
+	$resdss = mysql_fetch_object($resdss);
+
+	$splitUsername = explode(".", $resdss->username);
+	$realUsername = $splitUsername[0];
+
+	$confirms = $resultrow->confirms;
+
+	if ($confirms > 120) {
+		$confirms = Completed;
+	}
+
+	echo "<td>$resultrow->blockNumber</td>";
+	echo "<td>$confirms</td>";
+	echo "<td>$realUsername</td>";
+	echo "<td>".strftime("%B %d %Y %r",$resultrow->timestamp)."</td>";
+	echo "</tr>";
+}
+
+echo "</table><br /><a href=blocks.php style=\"color: blue\">More Block Info</a><br>";
 echo "</div><div class=\"clear\"></div>";
 
 include("includes/footer.php");
