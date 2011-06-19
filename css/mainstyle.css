@@ -159,14 +159,14 @@ span.returnMessage{
 #leftsidebar {
 	float: left;
 	background-color:#DDD;
-	width: 227px;
+	width: 247px;
 	padding:10px;
 	overflow: none;
 }
 
 #content {
 	white-space: normal;
-	margin-left: 257px;
+	margin-left: 277px;
 	margin-top: 10px;
 	background-color: #FFF;
 }
