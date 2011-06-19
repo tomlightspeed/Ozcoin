@@ -56,7 +56,7 @@ while ($resultrow = mysql_fetch_object($result)) {
 		echo "&nbsp;<img src=\"/images/crown.png\" />";
 	}
 
-	echo "</td><td>" . $username . "</td><td>" . $resultrow->hashrate . "</td></tr>";
+	echo "</td><td>" . $username . "</td><td>" . number_format( $resultrow->hashrate ) . "</td></tr>";
 
 	$rank++;
 }
@@ -110,7 +110,7 @@ while ($resultrow = mysql_fetch_object($result)) {
 		echo "&nbsp;<img src=\"/images/crown.png\" />";
 	}
 
-	echo "</td><td>" . $username . "</td><td>" . ($resultrow->share_count - $resultrow->stale_share_count) . "</td></tr>";
+	echo "</td><td>" . $username . "</td><td>" . number_format($resultrow->share_count - $resultrow->stale_share_count) . "</td></tr>";
 	$rank++;
 }
 
@@ -142,12 +142,12 @@ echo "<tr><th colspan=\"2\" scope=\"col\">Server Stats</th></tr>";
 $current_block_no = $bitcoinController->query("getblocknumber");
 
 echo "<tr><th class=\"leftheader\">Current Block</th><td><a href=\"http://blockexplorer.com/b/" . $current_block_no . "\">";
-echo $current_block_no . "</a></td></tr>";
+echo number_format($current_block_no) . "</a></td></tr>";
 
 $difficulty = $bitcoinController->query("getdifficulty");
 $show_difficulty = round($difficulty, 2);
 
-echo "<tr><th class=\"leftheader\">Current Difficulty</th><td><a href=\"http://dot-bit.org/tools/nextDifficulty.php\">" . $show_difficulty . "</a></td></tr>";
+echo "<tr><th class=\"leftheader\">Current Difficulty</th><td><a href=\"http://dot-bit.org/tools/nextDifficulty.php\">" . number_format($show_difficulty) . "</a></td></tr>";
 
 $result = mysql_query("SELECT blockNumber, confirms, timestamp FROM networkBlocks WHERE confirms > 1 ORDER BY blockNumber DESC LIMIT 1");
 
@@ -156,8 +156,8 @@ if ($resultrow = mysql_fetch_object($result)) {
 	$found_block_no = $resultrow->blockNumber;
 	$confirm_no = $resultrow->confirms;
 
-	echo "<tr><th class=\"leftheader\">Last Block Found</th><td><a href=\"http://blockexplorer.com/b/" . $found_block_no . "\">" . $found_block_no . "</a></td></tr>";
-	echo "<tr><th class=\"leftheader\">Confirmations</th><td>" . $confirm_no;
+	echo "<tr><th class=\"leftheader\">Last Block Found</th><td><a href=\"http://blockexplorer.com/b/" . $found_block_no . "\">" . number_format($found_block_no) . "</a></td></tr>";
+	echo "<tr><th class=\"leftheader\">Confirmations</th><td>" . number_format($confirm_no);
 
 	if( $confirm_no > 99 )
 	{
@@ -173,15 +173,15 @@ $res = mysql_query("SELECT count(webUsers.id) FROM webUsers WHERE hashrate > 0")
 $row = mysql_fetch_array($res);
 $users = $row[0];
 
-echo "<tr><th class=\"leftheader\">Current Users Mining</th><td>".$users."</td></tr>";
-echo "<tr><th class=\"leftheader\">Current Total Miners</th><td>".$settings->getsetting('currentworkers')."</td></tr>";
+echo "<tr><th class=\"leftheader\">Current Users Mining</th><td>" . number_format($users) . "</td></tr>";
+echo "<tr><th class=\"leftheader\">Current Total Miners</th><td>" . number_format($settings->getsetting('currentworkers')) . "</td></tr>";
 
 $hashrate = $settings->getsetting('currenthashrate') / 1000;
 $show_hashrate = round($hashrate,3);
 //time = difficulty * 2**32 / hashrate
 $time_to_find = round( ($difficulty * 2^32 / $hashrate^9 / 60 / 60), 2 );
 
-echo "<tr><th class=\"leftheader\">Pool Hash Rate</th><td>". $show_hashrate ."</td></tr>";
+echo "<tr><th class=\"leftheader\">Pool Hash Rate</th><td>". number_format($show_hashrate) ."</td></tr>";
 echo "<tr><th class=\"leftheader\">Time To Find Block</th><td>" . $time_to_find . " Hours</td></tr>";
 echo "</table>";
 
@@ -209,8 +209,8 @@ while($resultrow = mysql_fetch_object($result)) {
 	
 	$block_no = $resultrow->blockNumber;
 	
-	echo "<td><a href=\"http://blockexplorer.com/b/$block_no\">$block_no</a></td>";
-	echo "<td>$confirms</td>";
+	echo "<td><a href=\"http://blockexplorer.com/b/$block_no\">" . number_format($block_no) . "</a></td>";
+	echo "<td>" . number_format($confirms) . "</td>";
 	echo "<td>$realUsername</td>";
 	echo "<td>".strftime("%B %d %Y %r",$resultrow->timestamp)."</td>";
 	echo "</tr>";
