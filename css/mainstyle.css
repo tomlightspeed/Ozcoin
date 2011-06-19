@@ -161,19 +161,14 @@ span.returnMessage{
 	background-color:#DDD;
 	width: 227px;
 	padding:10px;
-	margin-right:10px;
 	overflow: none;
-
 }
 
 #content {
 	white-space: normal;
-	/*padding: 1em;*/
-	/*margin: .5em;*/
-	margin-left: 247px;
+	margin-left: 257px;
 	margin-top: 10px;
 	background-color: #FFF;
-
 }
 
 #currentRates {
