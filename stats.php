@@ -47,14 +47,14 @@ while ($resultrow = mysql_fetch_object($result)) {
 		echo "<tr>";
 	}
 	echo "<td>" . $rank;
-	
+
 	if( $rank == 1 )
 	{
 		echo "&nbsp;<img src=\"/images/crown.png\" />";
 	}
-	
+
 	echo "</td><td>" . $username . "</td><td>" . $resultrow->hashrate . "</td></tr>";
-		
+
 	$rank++;
 }
 
@@ -82,14 +82,14 @@ while ($resultrow = mysql_fetch_object($result)) {
 	{
 		echo "<tr>";
 	}
-	
+
 	echo "<td>" . $rank;
-	
+
 	if( $rank == 1 )
 	{
 		echo "&nbsp;<img src=\"/images/crown.png\" />";
 	}
-	
+
 	echo "</td><td>" . $username . "</td><td>" . ($resultrow->share_count - $resultrow->stale_share_count) . "</td></tr>";
 	$rank++;
 }
