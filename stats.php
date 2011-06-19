@@ -179,9 +179,9 @@ echo "<tr><td class=\"leftheader\">Current Total Miners</td><td>" . number_forma
 $hashrate = $settings->getsetting('currenthashrate') / 1000;
 $show_hashrate = round($hashrate,3);
 //time = difficulty * 2**32 / hashrate
-$time_to_find = round( ($difficulty * 2^32 / $hashrate^9 / 60 / 60), 2 );
+$time_to_find = round( ( ((($difficulty * 2^32) / $hashrate^9) / 60) / 60), 2 );
 
-echo "<tr><th class=\"leftheader\">Pool Hash Rate</th><td>". number_format($show_hashrate, 3) ."</td></tr>";
+echo "<tr><th class=\"leftheader\">Pool Hash Rate</th><td>". number_format($show_hashrate, 3) ." Ghash/s</td></tr>";
 echo "<tr><th class=\"leftheader\">Time To Find Block</th><td>" . $time_to_find . " Hours</td></tr>";
 echo "</table>";
 
@@ -212,7 +212,7 @@ while($resultrow = mysql_fetch_object($result)) {
 	echo "<td><a href=\"http://blockexplorer.com/b/$block_no\">" . number_format($block_no) . "</a></td>";
 	echo "<td>" . $confirms . "</td>";
 	echo "<td>$realUsername</td>";
-	echo "<td>".strftime("%B %d %Y %r",$resultrow->timestamp)."</td>";
+	echo "<td>".strftime("%F %r",$resultrow->timestamp)."</td>";
 	echo "</tr>";
 }
 
