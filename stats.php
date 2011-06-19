@@ -16,7 +16,10 @@
 
 // 	  BTC Donations: 163Pv9cUDJTNUbadV4HMRQSSj3ipwLURRc
 //
-//	  Improved Stats written by Tom Lightspeed (tomlightspeed@gmail.com)
+//    Improved Stats written by Tom Lightspeed (tomlightspeed@gmail.com)
+//    Developed Socially for http://ozco.in
+//    May the force be with you.
+
 $pageTitle = "- Stats";
 include ("includes/header.php");
 
@@ -220,6 +223,7 @@ while($resultrow = mysql_fetch_object($result)) {
 }
 
 echo "</table>";
+echo "<p>echo PHP_INT_MAX;" . PHP_INT_MAX . "</p>"
 echo "</div><div class=\"clear\"></div>";
 
 include("includes/footer.php");
