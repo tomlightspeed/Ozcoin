@@ -15,6 +15,11 @@
 //    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // 	  BTC Donations: 163Pv9cUDJTNUbadV4HMRQSSj3ipwLURRc
+//
+//    Improved Stats written by Tom Lightspeed (tomlightspeed@gmail.com)
+//    Developed Socially for http://ozco.in
+//    May the force be with you.
+
 $pageTitle = "- Stats";
 include ("includes/header.php");
 
@@ -179,7 +184,7 @@ echo "<tr><td class=\"leftheader\">Current Total Miners</td><td>" . number_forma
 $hashrate = $settings->getsetting('currenthashrate') / 1000;
 $show_hashrate = round($hashrate,3);
 //time = difficulty * 2**32 / hashrate
-$time_to_find = ((($difficulty * 2^32 / $hashrate * 1000000000) / 60) / 60);
+$time_to_find = (($difficulty * 2^32) / ($hashrate * 10^9)) / 3600;
 $time_to_find = round( $time_to_find, 2 );
 
 echo "<tr><td class=\"leftheader\">Pool Hash Rate</td><td>". number_format($show_hashrate, 3) ." Ghashes/s</td></tr>";
@@ -218,6 +223,7 @@ while($resultrow = mysql_fetch_object($result)) {
 }
 
 echo "</table>";
+echo "<p>echo PHP_INT_MAX;" . PHP_INT_MAX . "</p>"
 echo "</div><div class=\"clear\"></div>";
 
 include("includes/footer.php");
