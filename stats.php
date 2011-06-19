@@ -19,6 +19,7 @@
 include ("includes/header.php");
 
 $numberResults = 30;
+$last_no_blocks_found = 5;
 
 $bitcoinController = new BitcoinClient($rpcType, $rpcUsername, $rpcPassword, $rpcHost);
 
@@ -33,14 +34,16 @@ $bitcoinController = new BitcoinClient($rpcType, $rpcUsername, $rpcPassword, $rp
 
 $result = mysql_query("SELECT id, hashrate FROM webUsers ORDER BY hashrate DESC LIMIT " . $numberResults);
 $rank = 1;
+$user_found = false;
 
 while ($resultrow = mysql_fetch_object($result)) {
 	$resdss = mysql_query("SELECT username FROM webUsers WHERE id=$resultrow->id");
 	$resdss = mysql_fetch_object($resdss);
 	$username = $resdss->username;
-	if( $username == $userInfo->username )
+	if( $cookieValid && $username == $userInfo->username )
 	{
 		echo "<tr class=\"user_position\">";
+		$user_found = true;
 	}
 	else
 	{
@@ -58,6 +61,21 @@ while ($resultrow = mysql_fetch_object($result)) {
 	$rank++;
 }
 
+if( $cookieValid && $user_found == false )
+{
+	$query_init       = "SET @rownum := 0";
+ 
+	$query_getrank    =   "SELECT rank, hashrate FROM (
+                        SELECT @rownum := @rownum + 1 AS rank, hashrate, id
+                        FROM webUsers ORDER BY hashrate DESC
+                        ) as result WHERE id=" . $userInfo->id;
+	
+	mysql_query( $query_init );
+	$result = mysql_query( $query_getrank );
+	$row = mysql_fetch_array( $result );
+		
+	echo "<tr class=\"user_position\"><td>" . $row['rank'] . "</td><td>" . $userInfo->username . "</td><td>" . $row['hashrate'] . "</td></tr>";
+}
 ?>
 </table>
 </div>
@@ -69,14 +87,16 @@ while ($resultrow = mysql_fetch_object($result)) {
 
 $result = mysql_query("SELECT id, share_count, stale_share_count FROM webUsers ORDER BY share_count DESC LIMIT " . $numberResults);
 $rank = 1;
+$user_found = false;
 
 while ($resultrow = mysql_fetch_object($result)) {
 	$resdss = mysql_query("SELECT username FROM webUsers WHERE id=$resultrow->id");
 	$resdss = mysql_fetch_object($resdss);
-	$username = "$resdss->username";
+	$username = $resdss->username;
 	if( $username == $userInfo->username )
 	{
 		echo "<tr class=\"user_position\">";
+		$user_found = true;
 	}
 	else
 	{
@@ -94,6 +114,21 @@ while ($resultrow = mysql_fetch_object($result)) {
 	$rank++;
 }
 
+if( $cookieValid && $user_found == false )
+{
+	$query_init       = "SET @rownum := 0";
+ 
+	$query_getrank    =   "SELECT rank, shares FROM (
+                        SELECT @rownum := @rownum + 1 AS rank, share_count-stale_share_count AS shares, id
+                        FROM webUsers ORDER BY shares DESC
+                        ) as result WHERE id=" . $userInfo->id;
+	
+	mysql_query( $query_init );
+	$result = mysql_query( $query_getrank );
+	$row = mysql_fetch_array( $result );
+		
+	echo "<tr class=\"user_position\"><td>" . $row['rank'] . "</td><td>" . $userInfo->username . "</td><td>" . $row['hashrate'] . "</td></tr>";
+}
 ?>
 </table>
 </div>
@@ -106,9 +141,13 @@ echo "<tr><th colspan=\"2\" scope=\"col\">Server Stats</th></tr>";
 
 $current_block_no = $bitcoinController->query("getblocknumber");
 
-echo "<tr><th class=\"leftheader\" scope=\"col\">Current Block</th><td><a href=\"http://blockexplorer.com/b/" . $current_block_no . "\">";
+echo "<tr><th class=\"leftheader\">Current Block</th><td><a href=\"http://blockexplorer.com/b/" . $current_block_no . "\">";
 echo $current_block_no . "</a></td></tr>";
-echo "<tr><th class=\"leftheader\" scope=\"col\">Current Difficulty</th><td><a href=\"http://dot-bit.org/tools/nextDifficulty.php\">".round($bitcoinController->query("getdifficulty"), 2)."</a></td></tr>";
+
+$difficulty = $bitcoinController->query("getdifficulty");
+$show_difficulty = round($difficulty, 2);
+
+echo "<tr><th class=\"leftheader\">Current Difficulty</th><td><a href=\"http://dot-bit.org/tools/nextDifficulty.php\">" . $show_difficulty . "</a></td></tr>";
 
 $result = mysql_query("SELECT blockNumber, confirms, timestamp FROM networkBlocks WHERE confirms > 1 ORDER BY blockNumber DESC LIMIT 1");
 
@@ -117,8 +156,8 @@ if ($resultrow = mysql_fetch_object($result)) {
 	$found_block_no = $resultrow->blockNumber;
 	$confirm_no = $resultrow->confirms;
 
-	echo "<tr><th class=\"leftheader\" scope=\"col\">Last Block Found</th><td><a href=\"http://blockexplorer.com/b/" . $found_block_no . "\">" . $found_block_no . "</a></td></tr>";
-	echo "<tr><th class=\"leftheader\" scope=\"col\">Confirmations</th><td>" . $confirm_no;
+	echo "<tr><th class=\"leftheader\">Last Block Found</th><td><a href=\"http://blockexplorer.com/b/" . $found_block_no . "\">" . $found_block_no . "</a></td></tr>";
+	echo "<tr><th class=\"leftheader\">Confirmations</th><td>" . $confirm_no;
 
 	if( $confirm_no > 99 )
 	{
@@ -126,7 +165,7 @@ if ($resultrow = mysql_fetch_object($result)) {
 	}
 
 	echo "</td></tr>";
-	echo "<tr><th class=\"leftheader\" scope=\"col\">Time Found</th><td>".strftime("%B %d %Y %r",$resultrow->timestamp)."</td></tr>";
+	echo "<tr><th class=\"leftheader\">Time Found</th><td>".strftime("%B %d %Y %r",$resultrow->timestamp)."</td></tr>";
 
 }
 
@@ -134,17 +173,25 @@ $res = mysql_query("SELECT count(webUsers.id) FROM webUsers WHERE hashrate > 0")
 $row = mysql_fetch_array($res);
 $users = $row[0];
 
-echo "<tr><th class=\"leftheader\" scope=\"col\">Current Users Mining</th><td>".$users."</td></tr>";
-echo "<tr><th class=\"leftheader\" scope=\"col\">Current Total Miners</th><td>".$settings->getsetting('currentworkers')."</td></tr>";
+echo "<tr><th class=\"leftheader\">Current Users Mining</th><td>".$users."</td></tr>";
+echo "<tr><th class=\"leftheader\">Current Total Miners</th><td>".$settings->getsetting('currentworkers')."</td></tr>";
+
+$hashrate = $settings->getsetting('currenthashrate') / 1000;
+$show_hashrate = round($hashrate,3);
+//time = difficulty * 2**32 / hashrate
+$time_to_find = round( ($difficulty * 2^32 / $hashrate^9 / 60 / 60), 2 );
+
+echo "<tr><th class=\"leftheader\">Pool Hash Rate</th><td>". $show_hashrate ."</td></tr>";
+echo "<tr><th class=\"leftheader\">Time To Find Block</th><td>" . $time_to_find . " Hours</td></tr>";
 echo "</table>";
 
-// SHOW LAST 5 BLOCKS FOUND
+// SHOW LAST (=$last_no_blocks_found) BLOCKS FOUND
 
-echo "<table class=\"stats_table server_width\">";
-echo "<tr><th scope=\"col\" colspan=\"4\">Last 5 Blocks Found</th></tr>";
+echo "<table class=\"stats_table server_width top_spacing\">";
+echo "<tr><th scope=\"col\" colspan=\"4\">Last $last_no_blocks_found Blocks Found - <a href=\"blocks.php\">All Blocks Found</a></th></tr>";
 echo "<tr><th scope=\"col\">Block</th><th scope=\"col\">Confirms</th><th scope=\"col\">Finder</th><th scope=\"col\">Time</th></tr>";
 
-$result = mysql_query("SELECT blockNumber, confirms, timestamp FROM networkBlocks WHERE confirms > 1 ORDER BY blockNumber DESC LIMIT 5");
+$result = mysql_query("SELECT blockNumber, confirms, timestamp FROM networkBlocks WHERE confirms > 1 ORDER BY blockNumber DESC LIMIT " . $last_no_blocks_found);
 
 while($resultrow = mysql_fetch_object($result)) {
 	echo "<tr>";
@@ -159,15 +206,17 @@ while($resultrow = mysql_fetch_object($result)) {
 	if ($confirms > 120) {
 		$confirms = Completed;
 	}
-
-	echo "<td>$resultrow->blockNumber</td>";
+	
+	$block_no = $resultrow->blockNumber;
+	
+	echo "<td><a href=\"http://blockexplorer.com/b/$block_no\">$block_no</a></td>";
 	echo "<td>$confirms</td>";
 	echo "<td>$realUsername</td>";
 	echo "<td>".strftime("%B %d %Y %r",$resultrow->timestamp)."</td>";
 	echo "</tr>";
 }
 
-echo "</table><br /><a href=blocks.php style=\"color: blue\">More Block Info</a><br>";
+echo "</table>";
 echo "</div><div class=\"clear\"></div>";
 
 include("includes/footer.php");
