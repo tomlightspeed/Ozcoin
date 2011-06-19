@@ -74,7 +74,7 @@ if( $cookieValid && $user_found == false )
 	$result = mysql_query( $query_getrank );
 	$row = mysql_fetch_array( $result );
 		
-	echo "<tr class=\"user_position\"><td>" . $row['rank'] . "</td><td>" . $userInfo->username . "</td><td>" . $row['hashrate'] . "</td></tr>";
+	echo "<tr class=\"user_position\"><td>" . $row['rank'] . "</td><td>" . $userInfo->username . "</td><td>" . number_format( $row['hashrate'] ) . "</td></tr>";
 }
 ?>
 </table>
@@ -127,7 +127,7 @@ if( $cookieValid && $user_found == false )
 	$result = mysql_query( $query_getrank );
 	$row = mysql_fetch_array( $result );
 		
-	echo "<tr class=\"user_position\"><td>" . $row['rank'] . "</td><td>" . $userInfo->username . "</td><td>" . $row['hashrate'] . "</td></tr>";
+	echo "<tr class=\"user_position\"><td>" . $row['rank'] . "</td><td>" . $userInfo->username . "</td><td>" . number_format( $row['shares'] ) . "</td></tr>";
 }
 ?>
 </table>
@@ -137,17 +137,17 @@ if( $cookieValid && $user_found == false )
 <?php
 
 // START SERVER STATS
-echo "<tr><th colspan=\"2\" scope=\"col\">Server Stats</th></tr>";
+echo "<tr><th colspan=\"2\" scope=\"col\">Server Stats</td></tr>";
 
 $current_block_no = $bitcoinController->query("getblocknumber");
 
-echo "<tr><th class=\"leftheader\">Current Block</th><td><a href=\"http://blockexplorer.com/b/" . $current_block_no . "\">";
+echo "<tr><td class=\"leftheader\">Current Block</td><td><a href=\"http://blockexplorer.com/b/" . $current_block_no . "\">";
 echo number_format($current_block_no) . "</a></td></tr>";
 
 $difficulty = $bitcoinController->query("getdifficulty");
 $show_difficulty = round($difficulty, 2);
 
-echo "<tr><th class=\"leftheader\">Current Difficulty</th><td><a href=\"http://dot-bit.org/tools/nextDifficulty.php\">" . number_format($show_difficulty) . "</a></td></tr>";
+echo "<tr><td class=\"leftheader\">Current Difficulty</th><td><a href=\"http://dot-bit.org/tools/nextDifficulty.php\">" . number_format($show_difficulty) . "</a></td></tr>";
 
 $result = mysql_query("SELECT blockNumber, confirms, timestamp FROM networkBlocks WHERE confirms > 1 ORDER BY blockNumber DESC LIMIT 1");
 
@@ -156,8 +156,8 @@ if ($resultrow = mysql_fetch_object($result)) {
 	$found_block_no = $resultrow->blockNumber;
 	$confirm_no = $resultrow->confirms;
 
-	echo "<tr><th class=\"leftheader\">Last Block Found</th><td><a href=\"http://blockexplorer.com/b/" . $found_block_no . "\">" . number_format($found_block_no) . "</a></td></tr>";
-	echo "<tr><th class=\"leftheader\">Confirmations</th><td>" . number_format($confirm_no);
+	echo "<tr><td class=\"leftheader\">Last Block Found</td><td><a href=\"http://blockexplorer.com/b/" . $found_block_no . "\">" . number_format($found_block_no) . "</a></td></tr>";
+	echo "<tr><td class=\"leftheader\">Confirmations</td><td>" . number_format($confirm_no);
 
 	if( $confirm_no > 99 )
 	{
@@ -165,7 +165,7 @@ if ($resultrow = mysql_fetch_object($result)) {
 	}
 
 	echo "</td></tr>";
-	echo "<tr><th class=\"leftheader\">Time Found</th><td>".strftime("%B %d %Y %r",$resultrow->timestamp)."</td></tr>";
+	echo "<tr><td class=\"leftheader\">Time Found</td><td>".strftime("%B %d %Y %r",$resultrow->timestamp)."</td></tr>";
 
 }
 
@@ -173,8 +173,8 @@ $res = mysql_query("SELECT count(webUsers.id) FROM webUsers WHERE hashrate > 0")
 $row = mysql_fetch_array($res);
 $users = $row[0];
 
-echo "<tr><th class=\"leftheader\">Current Users Mining</th><td>" . number_format($users) . "</td></tr>";
-echo "<tr><th class=\"leftheader\">Current Total Miners</th><td>" . number_format($settings->getsetting('currentworkers')) . "</td></tr>";
+echo "<tr><td class=\"leftheader\">Current Users Mining</td><td>" . number_format($users) . "</td></tr>";
+echo "<tr><td class=\"leftheader\">Current Total Miners</td><td>" . number_format($settings->getsetting('currentworkers')) . "</td></tr>";
 
 $hashrate = $settings->getsetting('currenthashrate') / 1000;
 $show_hashrate = round($hashrate,3);
@@ -210,7 +210,7 @@ while($resultrow = mysql_fetch_object($result)) {
 	$block_no = $resultrow->blockNumber;
 	
 	echo "<td><a href=\"http://blockexplorer.com/b/$block_no\">" . number_format($block_no) . "</a></td>";
-	echo "<td>" . number_format($confirms) . "</td>";
+	echo "<td>" . $confirms . "</td>";
 	echo "<td>$realUsername</td>";
 	echo "<td>".strftime("%B %d %Y %r",$resultrow->timestamp)."</td>";
 	echo "</tr>";
