@@ -61,7 +61,35 @@ if(!$inDatabase){
 	//Add this block into the `networkBlocks` log
 	$currentTime = time();
 	mysql_query("INSERT INTO `networkBlocks` (`blockNumber`, `timestamp`) VALUES ('$currentBlockNumber', '$currentTime')");
-		
+
+    $sql = "" .
+        "UPDATE webUsers wu " .
+        "SET    wu.stale_share_count = wu.stale_share_count + " .
+        "       ( " .
+        "              SELECT COUNT(s.id) " .
+        "              FROM   shares s " .
+        "                     JOIN pool_worker pw " .
+        "                     ON     s.username   = pw.username " .
+        "              WHERE  our_result          = 'N' " .
+        "              AND    pw.associatedUserId = wu.id " .
+        "       ) ";
+    mysql_query($sql);
+
+    $sql = "" .
+        "UPDATE webUsers wu " .
+        "SET    wu.share_count = wu.share_count + " .
+        "       ( " .
+        "              SELECT COUNT(s.id) " .
+        "              FROM   shares s " .
+        "                     JOIN pool_worker pw " .
+        "                     ON     s.username   = pw.username " .
+        "              WHERE  our_result          = 'Y' " .
+        "              AND    pw.associatedUserId = wu.id " .
+        "       ) ";
+    mysql_query($sql);
+
+    // TODO make this an INSERT with SELECT, instead of piping through PHP
+
 	//Don't delete shares until a new block is started
 	//Go through every share and add it to the shares_history database
 	$shareInputQ = "";
@@ -153,7 +181,10 @@ for($i = 0; $i < $numAccounts; $i++){
 $blockExistsQ = mysql_query("SELECT id,accountAddress FROM networkBlocks WHERE confirms >= 1 ORDER BY blockNumber DESC LIMIT 1")or die(mysql_error());
 $blockExists = mysql_num_rows($blockExistsQ);
 $blockExists1 = mysql_fetch_object($blockExistsQ);
+
+if ($blockExists != NULL {
 $transactions1 = $bitcoinController->query("gettransaction" ,"$blockExists1->accountAddress");
+}
 
 if($blockExists){	
 		$winningAccount = mysql_num_rows($blockExistsQ);

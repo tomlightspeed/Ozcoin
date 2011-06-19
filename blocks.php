@@ -15,7 +15,7 @@
 //    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // 	  BTC Donations: 163Pv9cUDJTNUbadV4HMRQSSj3ipwLURRc
-
+$pageTitle = "- Block Info";
 include ("includes/header.php");
 
 echo "<h2>Blocks Found</h2><br/>";

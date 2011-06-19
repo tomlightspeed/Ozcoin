@@ -20,17 +20,10 @@ echo "Category: ".$test[$i]["category"]."<br><br>";
 
   echo "</pre>";
 
-//Connect to database
-	connectToDb();
+$bitcoinController = new BitcoinClient($rpcType, $rpcUsername, $rpcPassword, $rpcHost);
+$transactions = $bitcoinController->query(getinfo);
 
-//Open a bitcoind connection
-	$bitcoinController = new BitcoinClient($rpcType, $rpcUsername, $rpcPassword, $rpcHost);
-
-//Get some variables
-	$transactions = $bitcoinController->query("gettransaction" ,"680bb1e805fed80f46fd5177cfad6e931d84a39fa193c6d0ff278b8d2a94d5d1");
-
-//Go through all the transactions check if there is 50BTC inside
-	$numAccounts = count($transactions);
+$numAccounts = count($transactions);
 /*
 echo "Txid: ".$transactions['txid']."<br>";
 echo "confirmations : ".$transactions['confirmations']."<br>";
@@ -41,14 +34,13 @@ echo "TXID: ".$transaction[1]."<br>";
 echo "Category: ".$transaction[2]."<br><br>"; 
 }
 
-
 for($i = 0; $i < $numAccounts; $i++){
 echo "confirmations: ".$transactions[$i][0]."<br>";
 echo "TXID: ".$transactions[$i][1]."<br>";
 echo "Category: ".$transactions[$i]["category"]."<br><br>";
 
-}
+}*/
 print_r($transactions);
-*/
+
 
 ?>

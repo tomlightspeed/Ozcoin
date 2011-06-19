@@ -20,7 +20,7 @@ Website Reference:http://www.gnu.org/licenses/gpl-2.0.html
 *{
 	margin:0;
 	padding:0;
-	
+
 }
 
 body{
@@ -90,7 +90,7 @@ a.menu:hover{
 
 #userInfo{
 	float: left;
-	background-color:#DDD;	
+	background-color:#DDD;
 	width:15em;
 	height: 100%;
 	padding:.5em;
@@ -102,7 +102,7 @@ a.menu:hover{
 }
 
 #blogContainer{
-		
+
 		margin-left:1em;
 		padding-top:1em;
 		padding-left:1em;
@@ -113,7 +113,7 @@ a.menu:hover{
 }
 
 /*-----Menu Buttons------*/
-#menuBar{	
+#menuBar{
 	background-color:#000;
 	width: 100%;
 	min-height:2em;
@@ -156,22 +156,22 @@ span.returnMessage{
 	font-size:1.5em;
 }
 
-#leftsidebar {		
+#leftsidebar {
 	float: left;
 	background-color:#DDD;
-	width: 16em;	
+	width: 16em;
 	padding:.5em;
 	overflow: none;
-	
+
 }
 
 #content {
 	white-space: normal;
 	padding: 1em;
 	margin: .5em;
-	margin-left: 17em;	
+	margin-left: 17em;
 	background-color: #FFF;
-	
+
 }
 
 #currentRates {
@@ -181,25 +181,22 @@ span.returnMessage{
 
 #stats_wrap {
 	width: 1024px;
-	/*overflow: auto;*/
-	padding:15px;
+	padding:0px;
+	margin:0px;
 }
 
 #stats_members {
-	min-width:300px;
-	width:300px;
 	float:left;
 }
 
 #stats_lifetime {
-	min-width:300px;
-	width:300px;
+	padding-left:10px;
 	float:left;
 }
 
 #stats_server {
-	width:30%;
-	float:right;
+	padding-left:10px;
+	float:left;
 }
 
 .stats_table
@@ -224,6 +221,11 @@ span.returnMessage{
   width: 400px;
 }
 
+.top_spacing
+{
+  margin-top: 10px;
+}
+
 .stats_table caption
 {
   caption-side: bottom;
@@ -245,15 +247,14 @@ span.returnMessage{
 {
   color: #000;
   background-color: #8fadcc;
-  text-transform: uppercase;
   font-size: 0.9em;
   border-bottom: 2px solid #333;
   border-right: 2px solid #333;
 }
 
-.stats_table th+th[scope=col], .stats_table th .leftheader
+.stats_table th+th[scope=col], .leftheader
 {
-  color: #fff;
+  color: #fff !important;
   background-color: #7d98b3;
   border-right: 1px dotted #666;
 }

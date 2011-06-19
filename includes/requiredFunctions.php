@@ -21,15 +21,15 @@ Website Reference:http://www.gnu.org/licenses/gpl-2.0.html
 
 //RPC Bitcoind Client Information
 $rpcType = "http"; // http or https
-$rpcUsername = "changeme"; // username
-$rpcPassword = "changeme11"; // password
+$rpcUsername = "coinz"; // username
+$rpcPassword = "coinz11"; // password
 $rpcHost = "localhost";
 
 
 //Login to Mysql with the following
 $dbHost = "localhost";
-$dbUsername = "changeme";
-$dbPassword = "changeme11";
+$dbUsername = "bitcoin";
+$dbPassword = "bitcoin11";
 $dbPort = "3306";
 $dbDatabasename = "pushpool";
 

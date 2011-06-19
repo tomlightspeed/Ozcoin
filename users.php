@@ -1,4 +1,5 @@
 <?PHP
+$pageTitle = "- Users";
 include ("includes/header.php");
 	
 $goodMessage = "";

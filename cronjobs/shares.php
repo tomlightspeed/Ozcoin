@@ -26,29 +26,6 @@ if (isset($cronRemoteIP) && $_SERVER['REMOTE_ADDR'] !== $cronRemoteIP) {
 }
 
 lock("shares.php");
-	
-/////////Update share counts
-try {
-	$sql ="select sum(id) as id, a.associatedUserId from ".
-		  "(select count(s.id) as id, p.associatedUserId from shares s, pool_worker p WHERE p.username=s.username group by p.associatedUserId ".
-		  "union ".
-		  "select count(s.id) as id, p.associatedUserId from shares_history s, pool_worker p WHERE p.username=s.username group by p.associatedUserId) a group by associatedUserId";
-	$result = mysql_query($sql);
-	while ($row = mysql_fetch_array($result)) {
-		mysql_query("UPDATE webUsers SET share_count=".$row["id"]." WHERE id=".$row["associatedUserId"]);
-	}
-} catch (Exception $ex)  {}
-
-try {
-	$sql ="select sum(id) as id, a.associatedUserId from ".
-		  "(select count(s.id) as id, p.associatedUserId from shares s, pool_worker p WHERE p.username=s.username AND s.our_result='N' group by p.associatedUserId  ".
-		  "union ".
-		  "select count(s.id) as id, p.associatedUserId from shares_history s, pool_worker p WHERE p.username=s.username AND s.our_result='N' group by p.associatedUserId) a group by associatedUserId";
-	$result = mysql_query($sql);
-	while ($row = mysql_fetch_array($result)) {
-		mysql_query("UPDATE webUsers SET stale_share_count=".$row["id"]." WHERE id=".$row["associatedUserId"]);
-	}
-} catch (Exception $ex)  {}
 
 try {
 	$sql = "" .

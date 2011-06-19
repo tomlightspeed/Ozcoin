@@ -16,6 +16,8 @@
 
 // 	  BTC Donations: 163Pv9cUDJTNUbadV4HMRQSSj3ipwLURRc
 
+$pageTitle = "- Account Details";
+
 include ("includes/header.php");
 
 /*
@@ -47,6 +49,8 @@ if(!$cookieValid) {
 //Execute the following based on what $_POST["act"] is set to
 $returnError = "";
 $goodMessage = "";
+
+
 
 $act = $_POST["act"];
 if (isset($_POST["act"])) {
