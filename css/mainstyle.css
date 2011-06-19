@@ -194,12 +194,14 @@ span.returnMessage{
 #stats_lifetime {
 	/*min-width:300px;
 	width:300px;*/
+	padding-left:10px;
 	float:left;
 }
 
 #stats_server {
-	width:30%;
-	float:right;
+	/*width:30%;*/
+	padding-left:10px;
+	float:left;
 }
 
 .stats_table
