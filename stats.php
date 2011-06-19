@@ -179,7 +179,7 @@ echo "<tr><td class=\"leftheader\">Current Total Miners</td><td>" . number_forma
 $hashrate = $settings->getsetting('currenthashrate') / 1000;
 $show_hashrate = round($hashrate,3);
 //time = difficulty * 2**32 / hashrate
-$time_to_find = ((($difficulty * (2^32) / $hashrate^9) / 60) / 60);
+$time_to_find = ((($difficulty * 2^32 / $hashrate^9) / 60) / 60);
 $time_to_find = round( $time_to_find, 2 );
 
 echo "<tr><td class=\"leftheader\">Pool Hash Rate</td><td>". number_format($show_hashrate, 3) ." Ghashes/s</td></tr>";
