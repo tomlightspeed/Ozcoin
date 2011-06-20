@@ -27,15 +27,23 @@ include ("includes/header.php");
 $numberResults = 30;
 $last_no_blocks_found = 5;
 
+$BTC_per_block = 50; // don't keep this hardcoded
+
 $bitcoinController = new BitcoinClient($rpcType, $rpcUsername, $rpcPassword, $rpcHost);
+
+//time = difficulty * 2**32 / hashrate
+// hashrate is in Mhash/s
+function CalculateTimePerBlock( $btc_difficulty, $hashrate ){
+	return (($difficulty * bcpow(2,32)) / ($hashrate * bcpow(10,6))) / 3600;
+}
 
 ?>
 
 <div id="stats_wrap">
 <div id="stats_members">
 <table class="stats_table member_width">
-<tr><th colspan="3" scope="col">Top <?php echo $numberResults;?> Hashrates</th></tr>
-<tr><th scope="col">Rank</th><th scope="col">User Name</th><th scope="col">Hashrate</th></tr>
+<tr><th colspan="4" scope="col">Top <?php echo $numberResults;?> Hashrates</th></tr>
+<tr><th scope="col">Rank</th><th scope="col">User Name</th><th scope="col">Hashrate</th><th scope="col">BTC/Day</th></tr>
 <?php
 
 $result = mysql_query("SELECT id, hashrate FROM webUsers ORDER BY hashrate DESC LIMIT " . $numberResults);
@@ -61,8 +69,27 @@ while ($resultrow = mysql_fetch_object($result)) {
 	{
 		echo "&nbsp;<img src=\"/images/crown.png\" />";
 	}
+	
+	$user_hash_rate = $resultrow->hashrate;
 
-	echo "</td><td>" . $username . "</td><td>" . number_format( $resultrow->hashrate ) . "</td></tr>";
+	echo "</td><td>" . $username . "</td><td>" . number_format( $user_hash_rate ) . "</td><td>&nbsp;";
+	
+	/*
+   
+	   time_per_block = getTimePerBlock(difficulty,hashrate)
+	   coins = VariousTimeScales(bs.getBitcoinsPerBlock() / time_per_block)
+	   dollars = coins * exchange_rate
+    
+	   return time_per_block,coins,dollars
+	   */
+	
+	$time_per_block = CalculateTimePerBlock($difficulty, $user_hash_rate);
+	
+	$coins_24hours = 24 / $time_per_block;
+	
+	echo number_format( $coins_24hours, 2 );
+	
+	echo "</td></tr>";
 
 	$rank++;
 }
@@ -157,6 +184,9 @@ echo "<tr><td class=\"leftheader\">Current Difficulty</th><td><a href=\"http://d
 
 $result = mysql_query("SELECT blockNumber, confirms, timestamp FROM networkBlocks WHERE confirms > 1 ORDER BY blockNumber DESC LIMIT 1");
 
+$show_time_since_found = false;
+$time_last_found;
+
 if ($resultrow = mysql_fetch_object($result)) {
 
 	$found_block_no = $resultrow->blockNumber;
@@ -171,8 +201,12 @@ if ($resultrow = mysql_fetch_object($result)) {
 	}
 
 	echo "</td></tr>";
-	echo "<tr><td class=\"leftheader\">Time Found</td><td>".strftime("%B %d %Y %r",$resultrow->timestamp)."</td></tr>";
-
+	
+	$time_last_found = $resultrow->timestamp;
+	
+	echo "<tr><td class=\"leftheader\">Time Found</td><td>".strftime("%B %d %Y %r", $time_last_found)."</td></tr>";
+	
+	$show_time_since_found = true;
 }
 
 $res = mysql_query("SELECT count(webUsers.id) FROM webUsers WHERE hashrate > 0") or sqlerr(__FILE__, __LINE__);
@@ -182,14 +216,14 @@ $users = $row[0];
 echo "<tr><td class=\"leftheader\">Current Users Mining</td><td>" . number_format($users) . "</td></tr>";
 echo "<tr><td class=\"leftheader\">Current Total Miners</td><td>" . number_format($settings->getsetting('currentworkers')) . "</td></tr>";
 
-$hashrate = $settings->getsetting('currenthashrate') / 1000;
-$show_hashrate = round($hashrate,3);
-//time = difficulty * 2**32 / hashrate
-$time_to_find = (($difficulty * bcpow(2,32)) / ($hashrate * bcpow(10,9))) / 3600;
+$hashrate = $settings->getsetting('currenthashrate');
+$show_hashrate = round($hashrate / 1000,3);
+
+$time_to_find = CalculateTimePerBlock($difficulty, $hashrate); // (($difficulty * bcpow(2,32)) / ($hashrate * bcpow(10,9))) / 3600;
 $time_to_find = round( $time_to_find, 2 );
 
 echo "<tr><td class=\"leftheader\">Pool Hash Rate</td><td>". number_format($show_hashrate, 3) ." Ghashes/s</td></tr>";
-echo "<tr><td class=\"leftheader\">Time To Find Block</td><td>" . $time_to_find . " Hours</td></tr>";
+echo "<tr><td class=\"leftheader\">Est. Time To Find Block</td><td>" . $time_to_find . " Hours</td></tr>";
 echo "</table>";
 
 // SHOW LAST (=$last_no_blocks_found) BLOCKS FOUND
