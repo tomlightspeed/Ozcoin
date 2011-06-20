@@ -24,8 +24,6 @@
 $pageTitle = "- Stats";
 include ("includes/header.php");
 
-ini_set('display_errors', '1');  // DELETE ONCE CODE IS WORKING
-
 $numberResults = 30;
 $last_no_blocks_found = 5;
 
@@ -254,7 +252,7 @@ $hours_diff = ($now->getTimestamp() - $lastblock->getTimestamp()) / 3600;
 //echo "difference " . $interval->y . " years, " . $interval->m." months, ".$interval->d." days ";
 //$interval->format("%h:%i")
 
-echo "<tr><td class=\"leftheader\">Time Since Last Block</td><td>" . $hours_diff . " Hours</td></tr>";
+echo "<tr><td class=\"leftheader\">Time Since Last Block</td><td>" . $hours_diff . " Hours (" . $time_last_found . ")</td></tr>";
 
 echo "</table>";
 
@@ -294,7 +292,8 @@ echo "</table>";
 // SERVER HASHRATE/TIME GRAPH *************************************************************************************************************************
 // http://www.filamentgroup.com/lab/update_to_jquery_visualize_accessible_charts_with_html5_from_designing_with/
 // table is hidden, graph follows
-	
+/*
+   uncomment once db changes have been made
 echo "<table class=\"hide\">";
 echo "<caption>Pool Hashrate over 1 Month</caption>";
 echo "<thead><tr><td></td>";
@@ -302,6 +301,8 @@ echo "<thead><tr><td></td>";
 echo "</thead><tbody>";
 
 echo "</tbody></table>";
+   
+*/
 /*
 	<table>
 	<caption>2009 Employee Sales by Department</caption>
