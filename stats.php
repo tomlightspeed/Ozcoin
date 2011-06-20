@@ -249,10 +249,13 @@ echo "<tr><td class=\"leftheader\">Est. Time To Find Block</td><td>" . number_fo
 $now = new DateTime( "now" );
 //$interval = $lastblock->diff($now);
 $hours_diff = ($now->getTimestamp() - $time_last_found) / 3600;
+
+$time_last_found_out = $hours_diff%24 . "h " . $hours_diff*60%60 . "min " . $hours_diff*3600%60 . "sec";
+
 //echo "difference " . $interval->y . " years, " . $interval->m." months, ".$interval->d." days ";
 //$interval->format("%h:%i")
 
-echo "<tr><td class=\"leftheader\">Time Since Last Block</td><td>" . $hours_diff . " Hours (" . $time_last_found . ")</td></tr>";
+echo "<tr><td class=\"leftheader\">Time Since Last Block</td><td>" . $time_last_found_out . ")</td></tr>";
 
 echo "</table>";
 
