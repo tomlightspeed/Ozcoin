@@ -39,6 +39,10 @@ function CalculateTimePerBlock( $btc_difficulty, $_hashrate ){
 	return $find_time_hours;
 }
 
+function CoinsPerDay( $time_per_block, $btc_block ){
+	$coins_per_day = (24 / $time_per_block) * $btc_block;
+	return $coins_per_day;
+}
 ?>
 
 <div id="stats_wrap">
@@ -87,9 +91,9 @@ while ($resultrow = mysql_fetch_object($result)) {
 	
 	$time_per_block = CalculateTimePerBlock($difficulty, $user_hash_rate);
 	
-	$coins_24hours = (24 / $time_per_block) * $BTC_per_block;
+	$coins_day = CoinsPerDay($time_per_block, $BTC_per_block);
 	
-	echo number_format( $coins_24hours, 2 );
+	echo number_format( $coins_day, 2 );
 	
 	echo "</td></tr>";
 
@@ -108,8 +112,16 @@ if( $cookieValid && $user_found == false )
 	mysql_query( $query_init );
 	$result = mysql_query( $query_getrank );
 	$row = mysql_fetch_array( $result );
+	
+	$user_hashrate = $row['hashrate'];
 
-	echo "<tr class=\"user_position\"><td>" . $row['rank'] . "</td><td>" . $userInfo->username . "</td><td>" . number_format( $row['hashrate'] ) . "</td></tr>";
+	echo "<tr class=\"user_position\"><td>" . $row['rank'] . "</td><td>" . $userInfo->username . "</td><td>" . number_format( $user_hashrate ) . "</td><td>";
+	
+	$time_per_block = CalculateTimePerBlock($difficulty, $user_hashrate);
+	
+	$coins_day = CoinsPerDay($time_per_block, $BTC_per_block);
+	
+	echo $coins_day . "</td></tr>";
 }
 ?>
 </table>
