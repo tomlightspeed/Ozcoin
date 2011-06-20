@@ -93,7 +93,7 @@ while ($resultrow = mysql_fetch_object($result)) {
 	
 	$coins_day = CoinsPerDay($time_per_block, $BTC_per_block);
 	
-	echo number_format( $coins_day, 2 );
+	echo number_format( $coins_day, 3 );
 	
 	echo "</td></tr>";
 
@@ -121,7 +121,7 @@ if( $cookieValid && $user_found == false )
 	
 	$coins_day = CoinsPerDay($time_per_block, $BTC_per_block);
 	
-	echo $coins_day . "</td></tr>";
+	echo number_format( $coins_day, 3 ) . "</td></tr>";
 }
 ?>
 </table>
