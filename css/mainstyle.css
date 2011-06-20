@@ -46,6 +46,11 @@ input{
 	border: 1px solid #000;
 }
 
+.hide
+{
+	display:none;
+}
+
 /*-----End of Defaults------*/
 
 a.menu:active,a.menu:link,a.menu:visited{
@@ -182,6 +187,16 @@ span.returnMessage{
 	margin:0px;
 }
 
+#new_user_message{
+	width: 1024px;
+}
+
+#new_user_message p
+{
+	margin: 10px;
+	padding: 0px;
+}
+
 #stats_members {
 	float:left;
 }
@@ -249,11 +264,19 @@ span.returnMessage{
   border-right: 2px solid #333;
 }
 
-.stats_table th+th[scope=col], .leftheader
+.stats_table th+th[scope=col],
+{
+  color: #fff;
+  background-color: #7d98b3;
+  border-right: 1px dotted #666;
+}
+
+.leftheader
 {
   color: #fff !important;
   background-color: #7d98b3;
-  border-right: 1px dotted #666;
+  border-right: 2px solid #333;
+  border-bottom: 2px solid #333;
 }
 
 .stats_table th[scope=row]
