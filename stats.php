@@ -273,7 +273,7 @@ while($resultrow = mysql_fetch_object($result)) {
 	$confirms = $resultrow->confirms;
 
 	if ($confirms > 120) {
-		$confirms = Completed;
+		$confirms = "Done";
 	}
 
 	$block_no = $resultrow->blockNumber;
