@@ -239,15 +239,18 @@ $time_to_find = CalculateTimePerBlock($difficulty, $hashrate);
 // change 25.75 hours to 25:45 hours
 $intpart = floor( $time_to_find );
 $fraction = $time_to_find - $intpart; // results in 0.75
-$minutes = $fraction * 60;
+$minutes = number_format(($fraction * 60 ),0);
+if (strlen($minutes) == 1) {
+	$minutes = '0' . $minutes;
+}
 
 echo "<tr><td class=\"leftheader\">Pool Hash Rate</td><td>". number_format($show_hashrate, 3) . " Ghashes/s</td></tr>";
-echo "<tr><td class=\"leftheader\">Est. Time To Find Block</td><td>" . number_format($time_to_find,0) . ":" . number_format($minutes,0) . " Hours</td></tr>";
+echo "<tr><td class=\"leftheader\">Est. Time To Find Block</td><td>" . number_format($time_to_find,0) . ":" . $minutes . " Hours</td></tr>";
 
 $lastblock = new DateTime( $time_last_found );
 $now = new DateTime( "now" );
 $interval = $lastblock->diff($now);
-$hours_diff = ($now->getTimestamp() - $lastblock->getTimestamp()) / 60;
+$hours_diff = ($now->getTimestamp() - $lastblock->getTimestamp()) / 3600;
 //echo "difference " . $interval->y . " years, " . $interval->m." months, ".$interval->d." days ";
 //$interval->format("%h:%i")
 
