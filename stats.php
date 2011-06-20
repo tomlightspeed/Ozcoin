@@ -46,11 +46,18 @@ function CoinsPerDay( $time_per_block, $btc_block ){
 ?>
 
 <div id="stats_wrap">
+<?php
+if( !$cookieValid ){
+	echo "<div id=\"new_user_message\"><p>Welcome to <a href=\"https://ozco.in/\">ozco.in</a> visitor! Please login or <a href=\"https://ozco.in/register.php\">join us</a> to get detailed stats and graphs relating to your hashing!</p></div>";
+}
+?>
 <div id="stats_members">
 <table class="stats_table member_width">
 <tr><th colspan="4" scope="col">Top <?php echo $numberResults;?> Hashrates</th></tr>
-<tr><th scope="col">Rank</th><th scope="col">User Name</th><th scope="col">Hashrate</th><th scope="col">BTC/Day</th></tr>
+<tr><th scope="col">Rank</th><th scope="col">User Name</th><th scope="col">MH/s</th><th scope="col">BTC/Day</th></tr>
 <?php
+
+// TOP 30 CURRENT HASHRATES  *************************************************************************************************************************
 
 $result = mysql_query("SELECT id, hashrate FROM webUsers ORDER BY hashrate DESC LIMIT " . $numberResults);
 $rank = 1;
@@ -79,15 +86,6 @@ while ($resultrow = mysql_fetch_object($result)) {
 	$user_hash_rate = $resultrow->hashrate;
 
 	echo "</td><td>" . $username . "</td><td>" . number_format( $user_hash_rate ) . "</td><td>&nbsp;";
-	
-	/*
-   
-	   time_per_block = getTimePerBlock(difficulty,hashrate)
-	   coins = VariousTimeScales(bs.getBitcoinsPerBlock() / time_per_block)
-	   dollars = coins * exchange_rate
-    
-	   return time_per_block,coins,dollars
-	   */
 	
 	$time_per_block = CalculateTimePerBlock($difficulty, $user_hash_rate);
 	
@@ -132,6 +130,8 @@ if( $cookieValid && $user_found == false )
 <tr><th scope="col">Rank</th><th scope="col">User Name</th><th scope="col">Shares</th></tr>
 <?php
 
+// TOP 30 LIFETIME SHARES  *************************************************************************************************************************
+
 $result = mysql_query("SELECT id, share_count, stale_share_count FROM webUsers ORDER BY share_count DESC LIMIT " . $numberResults);
 $rank = 1;
 $user_found = false;
@@ -140,7 +140,7 @@ while ($resultrow = mysql_fetch_object($result)) {
 	$resdss = mysql_query("SELECT username FROM webUsers WHERE id=$resultrow->id");
 	$resdss = mysql_fetch_object($resdss);
 	$username = $resdss->username;
-	if( $username == $userInfo->username )
+	if( $cookieValid && $username == $userInfo->username )
 	{
 		echo "<tr class=\"user_position\">";
 		$user_found = true;
@@ -183,7 +183,7 @@ if( $cookieValid && $user_found == false )
 <table class="stats_table server_width">
 <?php
 
-// START SERVER STATS
+// START SERVER STATS *************************************************************************************************************************
 echo "<tr><th colspan=\"2\" scope=\"col\">Server Stats</td></tr>";
 
 $current_block_no = $bitcoinController->query("getblocknumber");
@@ -232,14 +232,27 @@ echo "<tr><td class=\"leftheader\">Current Total Miners</td><td>" . number_forma
 $hashrate = $settings->getsetting('currenthashrate');
 $show_hashrate = round($hashrate / 1000,3);
 
-$time_to_find = CalculateTimePerBlock($difficulty, $hashrate); // (($difficulty * bcpow(2,32)) / ($hashrate * bcpow(10,9))) / 3600;
+$time_to_find = CalculateTimePerBlock($difficulty, $hashrate);
 $time_to_find = round( $time_to_find, 2 );
+// change 25.75 hours to 25:45 hours
+$intpart = floor( $time_to_find );
+$fraction = $time_to_find - $intpart; // results in 0.75
+$minutes = $fraction * 60;
 
-echo "<tr><td class=\"leftheader\">Pool Hash Rate</td><td>". number_format($show_hashrate, 3) ." Ghashes/s</td></tr>";
+echo "<tr><td class=\"leftheader\">Pool Hash Rate</td><td>". number_format($time_to_find, 0) . ":" . $minutes ." Ghashes/s</td></tr>";
 echo "<tr><td class=\"leftheader\">Est. Time To Find Block</td><td>" . $time_to_find . " Hours</td></tr>";
+
+$lastblock = new DateTime( $time_last_found );
+$now = new DateTime( "now" );
+$interval = $lastblock->diff($now);
+$hours_diff = ($now->getTimestamp() - $lastblock->getTimestamp()) / 60;
+//echo "difference " . $interval->y . " years, " . $interval->m." months, ".$interval->d." days ";
+
+echo "<tr><td class=\"leftheader\">Time Since Last Block</td><td>" . $interval->h . ":" . $interval.i . " Hours</td></tr>";
+
 echo "</table>";
 
-// SHOW LAST (=$last_no_blocks_found) BLOCKS FOUND
+// SHOW LAST (=$last_no_blocks_found) BLOCKS  *************************************************************************************************************************
 
 echo "<table class=\"stats_table server_width top_spacing\">";
 echo "<tr><th scope=\"col\" colspan=\"4\">Last $last_no_blocks_found Blocks Found - <a href=\"blocks.php\">All Blocks Found</a></th></tr>";
@@ -271,6 +284,46 @@ while($resultrow = mysql_fetch_object($result)) {
 }
 
 echo "</table>";
+
+// SERVER HASHRATE/TIME GRAPH *************************************************************************************************************************
+// http://www.filamentgroup.com/lab/update_to_jquery_visualize_accessible_charts_with_html5_from_designing_with/
+// table is hidden, graph follows
+	
+echo "<table class=\"hide\">";
+echo "<caption>Pool Hashrate over 1 Month</caption>";
+echo "<thead><tr><td></td>";
+
+echo "</thead><tbody>";
+
+echo "</tbody></table>";
+/*
+	<table>
+	<caption>2009 Employee Sales by Department</caption>
+	<thead>
+	<tr>
+	<td></td>
+	<th scope="col">food</th>
+	<th scope="col">auto</th>
+	<th scope="col">household</th>
+	<th scope="col">furniture</th>
+	<th scope="col">kitchen</th>
+	<th scope="col">bath</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+	<th scope="row">Mary</th>
+	<td>190</td>
+	<td>160</td>
+	<td>40</td>
+	<td>120</td>
+	<td>30</td>
+	<td>70</td>
+	</tr>
+		</tbody>
+	</table>
+*/
+	
 echo "</div><div class=\"clear\"></div>";
 
 include("includes/footer.php");
