@@ -87,7 +87,7 @@ while ($resultrow = mysql_fetch_object($result)) {
 	
 	$time_per_block = CalculateTimePerBlock($difficulty, $user_hash_rate);
 	
-	$coins_24hours = 24 / $time_per_block;
+	$coins_24hours = (24 / $time_per_block) * $BTC_per_block;
 	
 	echo number_format( $coins_24hours, 2 );
 	
