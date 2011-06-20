@@ -24,6 +24,8 @@
 $pageTitle = "- Stats";
 include ("includes/header.php");
 
+ini_set('display_errors', '1');  // DELETE ONCE CODE IS WORKING
+
 $numberResults = 30;
 $last_no_blocks_found = 5;
 
@@ -248,7 +250,7 @@ $interval = $lastblock->diff($now);
 $hours_diff = ($now->getTimestamp() - $lastblock->getTimestamp()) / 60;
 //echo "difference " . $interval->y . " years, " . $interval->m." months, ".$interval->d." days ";
 
-echo "<tr><td class=\"leftheader\">Time Since Last Block</td><td>" . $interval->h . ":" . $interval.i . " Hours</td></tr>";
+echo "<tr><td class=\"leftheader\">Time Since Last Block</td><td>" . $interval->format("%h:%i") . " Hours</td></tr>";
 
 echo "</table>";
 
