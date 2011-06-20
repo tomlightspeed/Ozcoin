@@ -249,8 +249,9 @@ $now = new DateTime( "now" );
 $interval = $lastblock->diff($now);
 $hours_diff = ($now->getTimestamp() - $lastblock->getTimestamp()) / 60;
 //echo "difference " . $interval->y . " years, " . $interval->m." months, ".$interval->d." days ";
+//$interval->format("%h:%i")
 
-echo "<tr><td class=\"leftheader\">Time Since Last Block</td><td>" . $interval->format("%h:%i") . " Hours</td></tr>";
+echo "<tr><td class=\"leftheader\">Time Since Last Block</td><td>" . $hours_diff . " Hours</td></tr>";
 
 echo "</table>";
 
