@@ -243,19 +243,19 @@ if (strlen($minutes) == 1) {
 }
 
 echo "<tr><td class=\"leftheader\">Pool Hash Rate</td><td>". number_format($show_hashrate, 3) . " Ghashes/s</td></tr>";
-echo "<tr><td class=\"leftheader\">Est. Time To Find Block</td><td>" . number_format($time_to_find,0) . ":" . $minutes . " Hours</td></tr>";
+echo "<tr><td class=\"leftheader\">Est. Time To Find Block</td><td>" . number_format($time_to_find,0) . " Hours " . $minutes . " Minutes</td></tr>";
 
 //$lastblock = new DateTime( $time_last_found );
 $now = new DateTime( "now" );
 //$interval = $lastblock->diff($now);
 $hours_diff = ($now->getTimestamp() - $time_last_found) / 3600;
 
-$time_last_found_out = $hours_diff%24 . "h " . $hours_diff*60%60 . "min " . $hours_diff*3600%60 . "sec";
+$time_last_found_out = $hours_diff%24 . " Hours " . $hours_diff*60%60 . " Minutes";
 
 //echo "difference " . $interval->y . " years, " . $interval->m." months, ".$interval->d." days ";
 //$interval->format("%h:%i")
 
-echo "<tr><td class=\"leftheader\">Time Since Last Block</td><td>" . $time_last_found_out . ")</td></tr>";
+echo "<tr><td class=\"leftheader\">Time Since Last Block</td><td>" . $time_last_found_out . "</td></tr>";
 
 echo "</table>";
 
