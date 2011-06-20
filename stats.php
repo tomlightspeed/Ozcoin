@@ -242,7 +242,7 @@ $fraction = $time_to_find - $intpart; // results in 0.75
 $minutes = $fraction * 60;
 
 echo "<tr><td class=\"leftheader\">Pool Hash Rate</td><td>". number_format($show_hashrate, 3) . " Ghashes/s</td></tr>";
-echo "<tr><td class=\"leftheader\">Est. Time To Find Block</td><td>" . $intpart . ":" . $minutes . " Hours</td></tr>";
+echo "<tr><td class=\"leftheader\">Est. Time To Find Block</td><td>" . number_format($time_to_find,0) . ":" . number_format($minutes,0) . " Hours</td></tr>";
 
 $lastblock = new DateTime( $time_last_found );
 $now = new DateTime( "now" );
