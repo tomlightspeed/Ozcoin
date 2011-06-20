@@ -31,10 +31,12 @@ $BTC_per_block = 50; // don't keep this hardcoded
 
 $bitcoinController = new BitcoinClient($rpcType, $rpcUsername, $rpcPassword, $rpcHost);
 
+$difficulty = $bitcoinController->query("getdifficulty");
 //time = difficulty * 2**32 / hashrate
 // hashrate is in Mhash/s
-function CalculateTimePerBlock( $btc_difficulty, $hashrate ){
-	return (($difficulty * bcpow(2,32)) / ($hashrate * bcpow(10,6))) / 3600;
+function CalculateTimePerBlock( $btc_difficulty, $_hashrate ){
+	$find_time_hours = ((($btc_difficulty * bcpow(2,32)) / ($_hashrate * bcpow(10,6))) / 3600);
+	return $find_time_hours;
 }
 
 ?>
@@ -177,7 +179,6 @@ $current_block_no = $bitcoinController->query("getblocknumber");
 echo "<tr><td class=\"leftheader\">Current Block</td><td><a href=\"http://blockexplorer.com/b/" . $current_block_no . "\">";
 echo number_format($current_block_no) . "</a></td></tr>";
 
-$difficulty = $bitcoinController->query("getdifficulty");
 $show_difficulty = round($difficulty, 2);
 
 echo "<tr><td class=\"leftheader\">Current Difficulty</th><td><a href=\"http://dot-bit.org/tools/nextDifficulty.php\">" . number_format($show_difficulty) . "</a></td></tr>";
