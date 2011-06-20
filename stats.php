@@ -235,14 +235,14 @@ $hashrate = $settings->getsetting('currenthashrate');
 $show_hashrate = round($hashrate / 1000,3);
 
 $time_to_find = CalculateTimePerBlock($difficulty, $hashrate);
-$time_to_find = round( $time_to_find, 2 );
+//$time_to_find = round( $time_to_find, 2 );
 // change 25.75 hours to 25:45 hours
 $intpart = floor( $time_to_find );
 $fraction = $time_to_find - $intpart; // results in 0.75
 $minutes = $fraction * 60;
 
-echo "<tr><td class=\"leftheader\">Pool Hash Rate</td><td>". number_format($time_to_find, 0) . ":" . $minutes ." Ghashes/s</td></tr>";
-echo "<tr><td class=\"leftheader\">Est. Time To Find Block</td><td>" . $time_to_find . " Hours</td></tr>";
+echo "<tr><td class=\"leftheader\">Pool Hash Rate</td><td>". number_format($show_hashrate, 3) . " Ghashes/s</td></tr>";
+echo "<tr><td class=\"leftheader\">Est. Time To Find Block</td><td>" . $intpart . ":" . $minutes . " Hours</td></tr>";
 
 $lastblock = new DateTime( $time_last_found );
 $now = new DateTime( "now" );
