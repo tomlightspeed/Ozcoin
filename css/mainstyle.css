@@ -194,6 +194,7 @@ span.returnMessage{
 #new_user_message p
 {
 	margin: 10px;
+	margin-left:0px;
 	padding: 0px;
 }
 
@@ -264,7 +265,7 @@ span.returnMessage{
   border-right: 2px solid #333;
 }
 
-.stats_table th+th[scope=col],
+.stats_table th+th[scope=col]
 {
   color: #fff;
   background-color: #7d98b3;
@@ -275,7 +276,7 @@ span.returnMessage{
 {
   color: #fff !important;
   background-color: #7d98b3;
-  border-right: 2px solid #333;
+  border-right: 2px solid #333 !important;
   border-bottom: 2px solid #333;
 }
 
