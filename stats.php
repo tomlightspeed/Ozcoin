@@ -82,17 +82,17 @@ while ($resultrow = mysql_fetch_object($result)) {
 	{
 		echo "&nbsp;<img src=\"/images/crown.png\" />";
 	}
-	
+
 	$user_hash_rate = $resultrow->hashrate;
 
 	echo "</td><td>" . $username . "</td><td>" . number_format( $user_hash_rate ) . "</td><td>&nbsp;";
-	
+
 	$time_per_block = CalculateTimePerBlock($difficulty, $user_hash_rate);
-	
+
 	$coins_day = CoinsPerDay($time_per_block, $BTC_per_block);
-	
+
 	echo number_format( $coins_day, 3 );
-	
+
 	echo "</td></tr>";
 
 	$rank++;
@@ -110,15 +110,15 @@ if( $cookieValid && $user_found == false )
 	mysql_query( $query_init );
 	$result = mysql_query( $query_getrank );
 	$row = mysql_fetch_array( $result );
-	
+
 	$user_hashrate = $row['hashrate'];
 
 	echo "<tr class=\"user_position\"><td>" . $row['rank'] . "</td><td>" . $userInfo->username . "</td><td>" . number_format( $user_hashrate ) . "</td><td>";
-	
+
 	$time_per_block = CalculateTimePerBlock($difficulty, $user_hashrate);
-	
+
 	$coins_day = CoinsPerDay($time_per_block, $BTC_per_block);
-	
+
 	echo number_format( $coins_day, 3 ) . "</td></tr>";
 }
 ?>
@@ -186,6 +186,18 @@ if( $cookieValid && $user_found == false )
 // START SERVER STATS *************************************************************************************************************************
 echo "<tr><th colspan=\"2\" scope=\"col\">Server Stats</td></tr>";
 
+$hashrate = $settings->getsetting('currenthashrate');
+$show_hashrate = round($hashrate / 1000,3);
+
+echo "<tr><td class=\"leftheader\">Pool Hash Rate</td><td>". number_format($show_hashrate, 3) . " Ghashes/s</td></tr>";
+
+$res = mysql_query("SELECT count(webUsers.id) FROM webUsers WHERE hashrate > 0") or sqlerr(__FILE__, __LINE__);
+$row = mysql_fetch_array($res);
+$users = $row[0];
+
+echo "<tr><td class=\"leftheader\">Current Users Mining</td><td>" . number_format($users) . "</td></tr>";
+echo "<tr><td class=\"leftheader\">Current Total Miners</td><td>" . number_format($settings->getsetting('currentworkers')) . "</td></tr>";
+
 $current_block_no = $bitcoinController->query("getblocknumber");
 
 echo "<tr><td class=\"leftheader\">Current Block</td><td><a href=\"http://blockexplorer.com/b/" . $current_block_no . "\">";
@@ -214,23 +226,13 @@ if ($resultrow = mysql_fetch_object($result)) {
 	}
 
 	echo "</td></tr>";
-	
+
 	$time_last_found = $resultrow->timestamp;
-	
+
 	echo "<tr><td class=\"leftheader\">Time Found</td><td>".strftime("%B %d %Y %r", $time_last_found)."</td></tr>";
-	
+
 	$show_time_since_found = true;
 }
-
-$res = mysql_query("SELECT count(webUsers.id) FROM webUsers WHERE hashrate > 0") or sqlerr(__FILE__, __LINE__);
-$row = mysql_fetch_array($res);
-$users = $row[0];
-
-echo "<tr><td class=\"leftheader\">Current Users Mining</td><td>" . number_format($users) . "</td></tr>";
-echo "<tr><td class=\"leftheader\">Current Total Miners</td><td>" . number_format($settings->getsetting('currentworkers')) . "</td></tr>";
-
-$hashrate = $settings->getsetting('currenthashrate');
-$show_hashrate = round($hashrate / 1000,3);
 
 $time_to_find = CalculateTimePerBlock($difficulty, $hashrate);
 // change 25.75 hours to 25:45 hours
@@ -238,7 +240,6 @@ $intpart = floor( $time_to_find );
 $fraction = $time_to_find - $intpart; // results in 0.75
 $minutes = number_format(($fraction * 60 ),0);
 
-echo "<tr><td class=\"leftheader\">Pool Hash Rate</td><td>". number_format($show_hashrate, 3) . " Ghashes/s</td></tr>";
 echo "<tr><td class=\"leftheader\">Est. Time To Find Block</td><td>" . number_format($time_to_find,0) . " Hours " . $minutes . " Minutes</td></tr>";
 
 $now = new DateTime( "now" );
@@ -294,7 +295,7 @@ echo "<thead><tr><td></td>";
 echo "</thead><tbody>";
 
 echo "</tbody></table>";
-   
+
 */
 /*
 	<table>
@@ -323,7 +324,7 @@ echo "</tbody></table>";
 		</tbody>
 	</table>
 */
-	
+
 echo "</div><div class=\"clear\"></div>";
 
 include("includes/footer.php");
