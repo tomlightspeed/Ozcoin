@@ -243,7 +243,7 @@ echo "<tr><td class=\"leftheader\">Est. Time To Find Block</td><td>" . number_fo
 
 $now = new DateTime( "now" );
 $hours_diff = ($now->getTimestamp() - $time_last_found) / 3600;
-$time_last_found_out = $hours_diff%24 . " Hours " . $hours_diff*60%60 . " Minutes";
+$time_last_found_out = floor($hours_diff) . " Hours " . $hours_diff*60%60 . " Minutes";
 
 echo "<tr><td class=\"leftheader\">Time Since Last Block</td><td>" . $time_last_found_out . "</td></tr>";
 
