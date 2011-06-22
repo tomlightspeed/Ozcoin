@@ -35,12 +35,28 @@ $difficulty = $bitcoinController->query("getdifficulty");
 //time = difficulty * 2**32 / hashrate
 // hashrate is in Mhash/s
 function CalculateTimePerBlock( $btc_difficulty, $_hashrate ){
-	$find_time_hours = ((($btc_difficulty * bcpow(2,32)) / ($_hashrate * bcpow(10,6))) / 3600);
+	if( $btc_difficulty > 0 && $_hashrate > 0 )
+	{
+		$find_time_hours = ((($btc_difficulty * bcpow(2,32)) / ($_hashrate * bcpow(10,6))) / 3600);
+	}
+	else
+	{
+		$find_time_hours = 0;
+	}
+
 	return $find_time_hours;
 }
 
 function CoinsPerDay( $time_per_block, $btc_block ){
-	$coins_per_day = (24 / $time_per_block) * $btc_block;
+	if( $time_per_block > 0 && $btc_block > 0 )
+	{
+		$coins_per_day = (24 / $time_per_block) * $btc_block;
+	}
+	else
+	{
+		$coins_per_day = 0;
+	}
+
 	return $coins_per_day;
 }
 ?>
