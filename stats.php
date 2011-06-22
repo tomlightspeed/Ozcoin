@@ -243,8 +243,22 @@ $minutes = number_format(($fraction * 60 ),0);
 echo "<tr><td class=\"leftheader\">Est. Time To Find Block</td><td>" . number_format($time_to_find,0) . " Hours " . $minutes . " Minutes</td></tr>";
 
 $now = new DateTime( "now" );
-$hours_diff = ($now->getTimestamp() - $time_last_found) / 3600;
-$time_last_found_out = floor($hours_diff) . " Hours " . $hours_diff*60%60 . " Minutes";
+$hours_diff = floor( ($now->getTimestamp() - $time_last_found) / 3600 );
+
+if( $hours_diff < $time_to_find )
+{
+	$time_last_found_out = "<span class=\"green\">";
+}
+elseif( ( $hours_diff * 2 ) > $time_to_find )
+{
+	$time_last_found_out = "<span class=\"red\">";
+}
+else
+{
+	$time_last_found_out = "<span class=\"orange\">";
+}
+
+$time_last_found_out = $time_last_found_out . $hours_diff . " Hours " . $hours_diff*60%60 . " Minutes</span>";
 
 echo "<tr><td class=\"leftheader\">Time Since Last Block</td><td>" . $time_last_found_out . "</td></tr>";
 
