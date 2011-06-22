@@ -234,18 +234,6 @@ if ($resultrow = mysql_fetch_object($result)) {
 	$confirm_no = $resultrow->confirms;
 
 	echo "<tr><td class=\"leftheader\">Last Block Found</td><td><a href=\"http://blockexplorer.com/b/" . $found_block_no . "\">" . number_format($found_block_no) . "</a></td></tr>";
-	echo "<tr><td class=\"leftheader\">Confirmations</td><td>" . number_format($confirm_no);
-
-	if( $confirm_no > 99 )
-	{
-		echo "&nbsp;<img src=\"/images/excited.gif\" />";
-	}
-
-	echo "</td></tr>";
-
-	$time_last_found = $resultrow->timestamp;
-
-	echo "<tr><td class=\"leftheader\">Time Found</td><td>".strftime("%B %d %Y %r", $time_last_found)."</td></tr>";
 
 	$show_time_since_found = true;
 }
@@ -316,44 +304,44 @@ echo "</table>";
 // SERVER HASHRATE/TIME GRAPH *************************************************************************************************************************
 // http://www.filamentgroup.com/lab/update_to_jquery_visualize_accessible_charts_with_html5_from_designing_with/
 // table is hidden, graph follows
-/*
-   uncomment once db changes have been made
+
 echo "<table class=\"hide\">";
-echo "<caption>Pool Hashrate over 1 Month</caption>";
+echo "<caption>Blocks Found Over Last Week</caption>";
 echo "<thead><tr><td></td>";
 
-echo "</thead><tbody>";
+// get last 7 days of blocks, confirms over 0
+$query = "select sum(no_blocks) as blocks_found, date from (
+SELECT COUNT(blockNumber) as no_blocks, CAST(FROM_UNIXTIME(timestamp) as date) as date
+FROM networkBlocks
+WHERE confirms > 0
+AND CAST(FROM_UNIXTIME(timestamp) as DATE) BETWEEN DATE_SUB(CURDATE(), INTERVAL 6 DAY)
+        AND curdate()
+GROUP BY DAY(FROM_UNIXTIME(timestamp))
+UNION
+SELECT 0, CAST(FROM_UNIXTIME(timestamp) as DATE) as date
+FROM networkBlocks
+WHERE CAST(FROM_UNIXTIME(timestamp) as DATE) BETWEEN DATE_SUB(CURDATE(), INTERVAL 6 DAY)
+        AND curdate()
+GROUP BY DAY(FROM_UNIXTIME(timestamp))
+
+) as blah group by date";
+$result = mysql_query($query);
+
+while($resultrow = mysql_fetch_object($result)) {
+	echo "<th scope=\"col\">" . $resultrow['date'] . "</th>";
+}
+
+echo "</thead><tbody><tr><th scope=\"row\"><a href=\"http://ozco.in/\">ozcoin</a></th>";
+
+// re-iterate through results
+mysql_data_seek($result, 0);
+
+while($resultrow = mysql_fetch_object($result)) {
+	echo "<td>" . $resultrow['blocks_found'] . "</td>";
+}
+
 
 echo "</tbody></table>";
-
-*/
-/*
-	<table>
-	<caption>2009 Employee Sales by Department</caption>
-	<thead>
-	<tr>
-	<td></td>
-	<th scope="col">food</th>
-	<th scope="col">auto</th>
-	<th scope="col">household</th>
-	<th scope="col">furniture</th>
-	<th scope="col">kitchen</th>
-	<th scope="col">bath</th>
-	</tr>
-	</thead>
-	<tbody>
-	<tr>
-	<th scope="row">Mary</th>
-	<td>190</td>
-	<td>160</td>
-	<td>40</td>
-	<td>120</td>
-	<td>30</td>
-	<td>70</td>
-	</tr>
-		</tbody>
-	</table>
-*/
 
 echo "</div><div class=\"clear\"></div>";
 
