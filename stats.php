@@ -234,6 +234,8 @@ if ($resultrow = mysql_fetch_object($result)) {
 	$confirm_no = $resultrow->confirms;
 
 	echo "<tr><td class=\"leftheader\">Last Block Found</td><td><a href=\"http://blockexplorer.com/b/" . $found_block_no . "\">" . number_format($found_block_no) . "</a></td></tr>";
+	
+	$time_last_found = $resultrow->timestamp;
 
 	$show_time_since_found = true;
 }
@@ -339,7 +341,6 @@ mysql_data_seek($result, 0);
 while($resultrow = mysql_fetch_object($result)) {
 	echo "<td>" . $resultrow['blocks_found'] . "</td>";
 }
-
 
 echo "</tbody></table>";
 
