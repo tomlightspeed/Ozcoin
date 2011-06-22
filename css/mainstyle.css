@@ -212,6 +212,18 @@ span.returnMessage{
 	float:left;
 }
 
+.green{
+	color: #347235 !important;
+}
+
+.red{
+	color: #7E2217 !important;
+}
+
+.orange{
+	color: #F88017 !important;
+}
+
 .stats_table
 {
   padding: 0;
