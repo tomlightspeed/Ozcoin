@@ -223,7 +223,7 @@ $show_difficulty = round($difficulty, 2);
 
 echo "<tr><td class=\"leftheader\">Current Difficulty</th><td><a href=\"http://dot-bit.org/tools/nextDifficulty.php\">" . number_format($show_difficulty) . "</a></td></tr>";
 
-$result = mysql_query("SELECT blockNumber, confirms, timestamp FROM networkBlocks WHERE confirms > 1 ORDER BY blockNumber DESC LIMIT 1");
+$result = mysql_query("SELECT blockNumber, confirms, timestamp FROM networkBlocks WHERE confirms > 0 ORDER BY blockNumber DESC LIMIT 1");
 
 $show_time_since_found = false;
 $time_last_found;
@@ -286,7 +286,7 @@ echo "<table class=\"stats_table server_width top_spacing\">";
 echo "<tr><th scope=\"col\" colspan=\"4\">Last $last_no_blocks_found Blocks Found - <a href=\"blocks.php\">All Blocks Found</a></th></tr>";
 echo "<tr><th scope=\"col\">Block</th><th scope=\"col\">Confirms</th><th scope=\"col\">Finder</th><th scope=\"col\">Time</th></tr>";
 
-$result = mysql_query("SELECT blockNumber, confirms, timestamp FROM networkBlocks WHERE confirms > 1 ORDER BY blockNumber DESC LIMIT " . $last_no_blocks_found);
+$result = mysql_query("SELECT blockNumber, confirms, timestamp FROM networkBlocks WHERE confirms > 0 ORDER BY blockNumber DESC LIMIT " . $last_no_blocks_found);
 
 while($resultrow = mysql_fetch_object($result)) {
 	echo "<tr>";
