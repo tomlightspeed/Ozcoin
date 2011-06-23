@@ -19,6 +19,8 @@
 //    Improved Stats written by Tom Lightspeed (tomlightspeed@gmail.com + http://facebook.com/tomlightspeed)
 //    Developed Socially for http://ozco.in
 //    If you liked my work, want changes/etc please contact me or donate 16p56JHwLna29dFhTRcTAurj4Zc2eScxTD.
+//    Special thanks to Wayno, Graet & Ycros from #ozcoin on freenode.net for their help :-)
+//    Additional thanks to Krany from #ozcoin on freenode.net.
 //    May the force be with you.
 
 $pageTitle = "- Stats";
@@ -234,7 +236,7 @@ if ($resultrow = mysql_fetch_object($result)) {
 	$confirm_no = $resultrow->confirms;
 
 	echo "<tr><td class=\"leftheader\">Last Block Found</td><td><a href=\"http://blockexplorer.com/b/" . $found_block_no . "\">" . number_format($found_block_no) . "</a></td></tr>";
-	
+
 	$time_last_found = $resultrow->timestamp;
 
 	$show_time_since_found = true;
@@ -276,8 +278,8 @@ if( $cookieValid ) // show only for logged in users
 {
 
 	echo "<table class=\"money_table server_width top_spacing\">";
-	echo "<tr><th scope=\"col\">Total BTC Earned</th></tr><tr><td class=\"moneyheader\"><img class=\"earned_coin\" src=\"/images/bitcoin.png\" />&nbsp;&nbsp;";
-	
+	echo "<tr><th scope=\"col\" colspan=\"2\">Total BTC Earned</th></tr><tr class=\"moneyheader\"><td class=\"bitcoin_image\"><img class=\"earned_coin\" src=\"/images/bitcoin.png\" /></td><td class=\"bitcoins\">";
+
 	$result = mysql_query( "SELECT sum(balanceDelta) as amount_earned  FROM accountHistory WHERE userid = '" . $userInfo->id . "'" );
 	if ($resultrow = mysql_fetch_object($result))
 	{
@@ -285,7 +287,7 @@ if( $cookieValid ) // show only for logged in users
 	}
 
 	echo "</td></tr></table>";
-		
+
 }
 
 // SHOW LAST (=$last_no_blocks_found) BLOCKS  *************************************************************************************************************************
