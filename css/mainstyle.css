@@ -224,7 +224,42 @@ span.returnMessage{
 	color: #F88017 !important;
 }
 
-.stats_table
+.earned_coin
+{
+	height: 40px;
+	width: 40px;
+}
+
+.money_table
+{
+  background-color: #FFCF4B !important;
+  border: 1px solid #DD9222 !important;
+}
+
+.moneyheader
+{
+  color: #DD9222 !important;
+  font-size: 22px;
+  background-color: #FFCF4B;
+  border-right: 2px solid #DD9222 !important;
+  border-bottom: 2px solid #DD9222;
+}
+
+.money_table th, .money_table td
+{
+  vertical-align: middle !important;
+  background-color: #FFCF4B !important;
+  color: #DD9222 !important;
+  vertical-align: middle !important;
+}
+
+.money_table th[scope=col]
+{
+  border-bottom: 2px solid #DD9222 !important;
+  border-right: 2px solid #DD9222 !important;
+}
+
+.stats_table, .money_table
 {
   padding: 0;
   margin: 0;
@@ -234,6 +269,64 @@ span.returnMessage{
   font-size: 0.9em;
   color: #000;
   background: #bcd0e4;
+}
+
+.stats_table caption, .money_table caption
+{
+  caption-side: bottom;
+  font-size: 0.9em;
+  font-style: italic;
+  text-align: right;
+  padding: 0.5em 0;
+}
+
+.stats_table th, .stats_table td, .money_table th, .money_table td
+{
+  border: 1px dotted #666;
+  padding: 0.5em;
+  text-align: left;
+  color: #632a39;
+}
+
+.stats_table th[scope=col], .money_table th[scope=col]
+{
+  color: #000;
+  background-color: #8fadcc;
+  font-size: 0.9em;
+  border-bottom: 2px solid #333;
+  border-right: 2px solid #333;
+}
+
+.stats_table th+th[scope=col], .money_table th+th[scope=col]
+{
+  color: #fff;
+  background-color: #7d98b3;
+  border-right: 1px dotted #666;
+}
+
+.leftheader
+{
+  color: #fff !important;
+  background-color: #7d98b3;
+  border-right: 2px solid #333 !important;
+  border-bottom: 2px solid #333;
+}
+
+.stats_table th[scope=row], .money_table th[scope=row]
+{
+  background-color: #b8cfe5;
+  border-right: 2px solid #333;
+}
+
+.stats_table tr.alt th, .stats_table tr.alt td, .money_table tr.alt th, .money_table tr.alt td
+{
+  color: #2a4763;
+}
+
+.stats_table .user_position th[scope=row], .stats_table .user_position td
+{
+  background-color: #632a2a;
+  color: #fff;
 }
 
 .member_width
@@ -251,63 +344,6 @@ span.returnMessage{
   margin-top: 10px;
 }
 
-.stats_table caption
-{
-  caption-side: bottom;
-  font-size: 0.9em;
-  font-style: italic;
-  text-align: right;
-  padding: 0.5em 0;
-}
-
-.stats_table th, .stats_table td
-{
-  border: 1px dotted #666;
-  padding: 0.5em;
-  text-align: left;
-  color: #632a39;
-}
-
-.stats_table th[scope=col]
-{
-  color: #000;
-  background-color: #8fadcc;
-  font-size: 0.9em;
-  border-bottom: 2px solid #333;
-  border-right: 2px solid #333;
-}
-
-.stats_table th+th[scope=col]
-{
-  color: #fff;
-  background-color: #7d98b3;
-  border-right: 1px dotted #666;
-}
-
-.leftheader
-{
-  color: #fff !important;
-  background-color: #7d98b3;
-  border-right: 2px solid #333 !important;
-  border-bottom: 2px solid #333;
-}
-
-.stats_table th[scope=row]
-{
-  background-color: #b8cfe5;
-  border-right: 2px solid #333;
-}
-
-.stats_table tr.alt th, .stats_table tr.alt td
-{
-  color: #2a4763;
-}
-
-.stats_table .user_position th[scope=row], .stats_table .user_position td
-{
-  background-color: #632a2a;
-  color: #fff;
-}
 
 .clear {
 	clear:both;
