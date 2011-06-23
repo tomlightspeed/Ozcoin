@@ -148,12 +148,12 @@ if( $cookieValid && $user_found == false )
 
 // TOP 30 LIFETIME SHARES  *************************************************************************************************************************
 
-$result = mysql_query("SELECT id, share_count, stale_share_count FROM webUsers ORDER BY share_count DESC LIMIT " . $numberResults);
+$result = mysql_query("SELECT id, share_count-stale_share_count AS shares FROM webUsers ORDER BY share_count DESC LIMIT " . $numberResults);
 $rank = 1;
 $user_found = false;
 
 while ($resultrow = mysql_fetch_object($result)) {
-	$resdss = mysql_query("SELECT username FROM webUsers WHERE id=$resultrow->id");
+	$resdss = mysql_query("SELECT username, share_count-stale_share_count AS shares FROM webUsers WHERE id=$resultrow->id");
 	$resdss = mysql_fetch_object($resdss);
 	$username = $resdss->username;
 	if( $cookieValid && $username == $userInfo->username )
@@ -173,7 +173,7 @@ while ($resultrow = mysql_fetch_object($result)) {
 		echo "&nbsp;<img src=\"/images/crown.png\" />";
 	}
 
-	echo "</td><td>" . $username . "</td><td>" . number_format($resultrow->share_count - $resultrow->stale_share_count) . "</td></tr>";
+	echo "</td><td>" . $username . "</td><td>" . number_format($resultrow->shares) . "</td></tr>";
 	$rank++;
 }
 
@@ -270,6 +270,24 @@ echo "<tr><td class=\"leftheader\">Time Since Last Block</td><td>" . $time_last_
 
 echo "</table>";
 
+// SHOW USER TOTAL PAID  *************************************************************************************************************************
+
+if( $cookieValid ) // show only for logged in users
+{
+
+	echo "<table class=\"money_table server_width top_spacing\">";
+	echo "<tr><th scope=\"col\">Total BTC Earned</th></tr><tr><td class=\"moneyheader\"><img class=\"earned_coin\" src=\"/images/bitcoin.png\" />&nbsp;&nbsp;";
+	
+	$result = mysql_query( "SELECT sum(balanceDelta) as amount_earned  FROM accountHistory WHERE userid = '" . $userInfo->id . "'" );
+	if ($resultrow = mysql_fetch_object($result))
+	{
+		echo $resultrow->amount_earned;
+	}
+
+	echo "</td></tr></table>";
+		
+}
+
 // SHOW LAST (=$last_no_blocks_found) BLOCKS  *************************************************************************************************************************
 
 echo "<table class=\"stats_table server_width top_spacing\">";
@@ -330,7 +348,7 @@ GROUP BY DAY(FROM_UNIXTIME(timestamp))
 $result = mysql_query($query);
 
 while($resultrow = mysql_fetch_object($result)) {
-	echo "<th scope=\"col\">" . $resultrow['date'] . "</th>";
+	echo "<th scope=\"col\">" . $resultrow->date . "</th>";
 }
 
 echo "</thead><tbody><tr><th scope=\"row\"><a href=\"http://ozco.in/\">ozcoin</a></th>";
@@ -339,7 +357,7 @@ echo "</thead><tbody><tr><th scope=\"row\"><a href=\"http://ozco.in/\">ozcoin</a
 mysql_data_seek($result, 0);
 
 while($resultrow = mysql_fetch_object($result)) {
-	echo "<td>" . $resultrow['blocks_found'] . "</td>";
+	echo "<td>" . $resultrow->blocks_found . "</td>";
 }
 
 echo "</tbody></table>";
