@@ -362,11 +362,25 @@ span.returnMessage{
   width: 400px;
 }
 
+.blocks_width
+{
+	width:800px;
+}
+
 .top_spacing
 {
   margin-top: 10px;
 }
 
+.bottom_spacing
+{
+  margin-bottom: 10px;
+}
+
+.align_right
+{
+  text-align: right !important;
+}
 
 .clear {
 	clear:both;
