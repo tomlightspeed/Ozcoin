@@ -24,7 +24,7 @@ echo "<tr><th scope=\"col\">Block</th>";
 echo "<th scope=\"col\">Confirms</th>";
 echo "<th scope=\"col\">Finder</th>";
 echo "<th scope=\"col\">Time</th>";
-echo "<th scope=\"col\">Earnings</th>";
+echo "<th scope=\"col\" class=\"align_right\">Earnings</th>";
 echo "<th scope=\"col\" class=\"align_right\">Shares</th>";
 echo "<th scope=\"col\" class=\"align_right\">Totals Shares</th></tr>";
 
@@ -76,7 +76,7 @@ if($resdssa == NULL || $resdssa->balanceDelta == NULL){
 	echo "<td>" . $confirms . "</td>";
 	echo "<td>$realUsername</td>";
 	echo "<td>".strftime("%B %d %Y %r",$resultrow->timestamp)."</td>";
-	echo "<td>" . $est . "</td>";
+	echo "<td class=\"align_right\">" . $est . "</td>";
 	echo "<td class=\"align_right\">" . $users . "</td>";
 	echo "<td class=\"align_right\">" . $totals . "</td>";
 }
