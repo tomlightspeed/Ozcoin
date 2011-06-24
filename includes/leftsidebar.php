@@ -21,6 +21,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 Note From Author: Please donate at the following address: 1Fc2ScswXAHPUgj3qzmbRmwWJSLL2yv8Q
+
+Modified for http://ozco.in/
+By Tom Lightspeed = tomlightspeed@gmail.com
+anyone else goes here!
 */
 
 	if(!$cookieValid){
@@ -51,15 +55,17 @@ Note From Author: Please donate at the following address: 1Fc2ScswXAHPUgj3qzmbRm
 			echo "Lifetime Invalid: <i><b>".$lifetimeUserInvalidShares."</b></i><br/>";
 			echo "Valid This Round: <b><i>".$totalUserShares."</i> shares</b><br/>";
 			echo "Round Shares: <b><i>".$totalOverallShares."</i> shares</b><br/>";
-			echo "Est. Earnings: <b><i>".sprintf("%.8f", $userRoundEstimate)."</i> BTC</b>";
+			echo "Est. Earnings: <b><i>".sprintf("%.8f", $userRoundEstimate)."</i> BTC</b><br/><br/>";
 			echo "<hr size='1' width='225'>";
-			echo "Current Balance: <b><i>".$currentBalance." </i>BTC</b><br/>";
+			echo "Current Balance: <b><i>".$currentBalance." </i>BTC</b>";
+			echo "<hr size='1' width='225'><br/>";
 			echo "Last Updated: ";
-			echo "".date("M,d Y g:ja", $settings->getsetting('statstime')).""; 
-		echo "<br><i>(Updated every 10 minutes)</i><br/>";
+			echo "".date("H:i:s", $settings->getsetting('statstime'))." WST+8";
 ?>
-		<br><a href="logout.php" style="color: blue">Logout</a>
-	
+		<br />
+		<a class="fancy_button top_spacing" href="logout.php">
+		  <span style="background-color: #070;">Logout</span>
+		</a>
 	</span>
 </div>
 <?php
